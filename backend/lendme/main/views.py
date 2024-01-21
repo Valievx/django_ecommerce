@@ -1,10 +1,16 @@
-from django.http import HttpResponse
 from django.shortcuts import render
+
+from catalog.models import Category, Item
 
 
 def index(request):
-    context: dict[str, str] = {
-        'title': 'LendMe - Главная страница'
+    categories = Category.objects.all()
+    items = Item.objects.all()
+
+    context: dict = {
+        'title': 'LendMe - Главная страница',
+        'items': items,
+        'categories': categories
     }
 
     return render(
