@@ -5,11 +5,16 @@
 
 <div class="container">
   <div class="presentation"></div>
-  <ul>
+
+  <div class="carousel-1 owl-carousel">
       {% for category in categories %}
-          <li><a href="{% url 'catalog:index' %}">{{ category.name }}</a></li>
+          <a href="{% url 'catalog:index' %}">
+              <div class="owl-pic">
+                  <img src="{{ category.image.url }}" alt="" />
+              </div>
+          </a>
       {% endfor %}
-  </ul>
+  </div>
 
 
 {% for product in items %}
@@ -17,25 +22,17 @@
     <div class="product-card">
         <div class="product-item">
             <div class="product-img">
-                <a href="">
-                    <img src="{{ product.image }}">
+                <a href="{% url 'catalog:product' product.slug %}">
+                    <img src="{{ product.image.url }}" alt="{{ product.slug }}">
                 </a>
             </div>
             <div class="product-list">
-                <a href="#">
+                <a class="product-name" href="{% url 'catalog:product' product.id %}">
                     <h3>{{ product.name }}</h3>
                 </a>
                 <div class="stars"></div>
-                <p><strong>{{ product.price }}</strong></p>
-                <div class="actions">
-                  <div class="add-to-cart">
-                    <a href="" class="cart-button">В корзину</a>
-                  </div>
-                  <div class="add-to-links">
-                    <a href="" class="wishlist"></a>
-                    <a href="" class="compare"></a>
-                  </div>
-                  </div>
+                <p class="price">{{ product.price }} ₽/{{ product.time_period }} {{ product.time_period_unit }}</p>
+                <p class="data">{{ product.pub_date }}</p>
             </div>
         </div>
     </div>

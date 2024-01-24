@@ -3,3 +3,5 @@
 [![License: BSD 3](https://img.shields.io/github/license/Valievx/django_ecommerce.svg)](LICENSE.txt)
 
 ## About
+
+A Django project  with a multitude of state-of-the-art libraries and tools.

@@ -14,9 +14,13 @@ class Category(models.Model):
     slug = models.SlugField(
         max_length=200,
         unique=True,
-        verbose_name='URL',
         blank=True,
-        null=True
+        null=True,
+        verbose_name='URL',
+    )
+    image = models.ImageField(
+        upload_to='categories',
+        verbose_name='Изображение'
     )
 
     def __str__(self):
@@ -37,8 +41,7 @@ class Item(models.Model):
     )
     category = models.ForeignKey(
         to=Category,
-        on_delete=models.SET_DEFAULT,
-        default='Uncategory',
+        on_delete=models.CASCADE,
         related_name='items',
         verbose_name='Категория'
     )
@@ -51,23 +54,37 @@ class Item(models.Model):
         max_length=200,
         unique=True,
         verbose_name='URL',
-        blank=True,
-        null=True
     )
     description = models.TextField(
         verbose_name='Описание'
     )
     image = models.ImageField(
-        upload_to='items_images',
+        upload_to='items',
         verbose_name='Изображение'
     )
-    price = models.PositiveIntegerField(
+    price = models.IntegerField(
         verbose_name='Цена'
+    )
+    time_period = models.PositiveIntegerField(
+        verbose_name='Период времени'
+    )
+    time_period_unit = models.CharField(
+        max_length=20,
+        choices=[
+            ('День', 'День'),
+            ('Час', 'Час'),
+            ('Минута', 'Минута')
+        ],
+        verbose_name='Единица времени'
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата публикации'
     )
+
+    @property
+    def price_with_symbol(self):
+        return f'{self.price} ₽/{self.time_period} {self.time_period_unit}'
 
     def __str__(self):
         return self.name
