@@ -4,39 +4,85 @@
 {% block content %}
 
 <div class="container">
-  <div class="presentation"></div>
 
-  <div class="carousel-1 owl-carousel">
+    <!-- Баннер -->
+    <div class="presentation"></div>
+
+    <!-- Категории -->
+    <div class="carousel-1 owl-carousel">
       {% for category in categories %}
-          <a href="{% url 'catalog:index' %}">
+          <a href="{% url 'catalog:index' category.slug %}">
               <div class="owl-pic">
                   <img src="{{ category.image.url }}" alt="" />
               </div>
           </a>
       {% endfor %}
-  </div>
-
-
-{% for product in items %}
-<!-- Карта товара -->
-    <div class="product-card">
-        <div class="product-item">
-            <div class="product-img">
-                <a href="{% url 'catalog:product' product.slug %}">
-                    <img src="{{ product.image.url }}" alt="{{ product.slug }}">
-                </a>
-            </div>
-            <div class="product-list">
-                <a class="product-name" href="{% url 'catalog:product' product.id %}">
-                    <h3>{{ product.name }}</h3>
-                </a>
-                <div class="stars"></div>
-                <p class="price">{{ product.price }} ₽/{{ product.time_period }} {{ product.time_period_unit }}</p>
-                <p class="data">{{ product.pub_date }}</p>
-            </div>
-        </div>
     </div>
-{% endfor %}
+
+
+    <!-- Карта товара-->
+    <div class="items-list">
+        <!-- Здесь будут отображаться карточки товара -->
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var offset = 0;
+
+        function getItems() {
+          $.ajax({
+            url: '/get_items/',
+            data: { offset: offset },
+            success: function (data) {
+              data.forEach(function (item) {
+                var date = new Date(item.pub_date);
+                var today = new Date();
+                var itemDate;
+                if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+                itemDate = 'Сегодня ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+                } else {
+                    itemDate = date.toLocaleDateString() + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+                }
+                var itemHtml = `
+                    <div class="product-card">
+                      <div class="product-item">
+                        <div class="product-img">
+                          <a href="catalog/product/${item.slug}">
+                              <img src="${item.image}" alt="${item.name}" />
+                          </a>
+                        </div>
+                        <div class="product-list">
+                          <a class="product-name" href="catalog/product/${item.slug}">
+                            <h3>${item.name}</h3>
+                          </a>
+                          <p class="price">${item.price}₽/${item.time_period} ${item.time_period_unit}</p>
+                          <p class="data">${itemDate}</p>
+                        </div>
+                      </div>
+                    </div>
+                `;
+                $('.items-list').append(itemHtml);
+              });
+              offset += 20;
+            },
+          });
+        }
+
+        $(window).scroll(function () {
+          if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+            getItems();
+          }
+        });
+
+        getItems();
+      });
+    </script>
 
 </div>
 {% endblock %}
+
+
+
+

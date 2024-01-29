@@ -16,8 +16,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'main.apps.MainConfig',
     'catalog.apps.CatalogConfig',
+    'api.apps.ApiConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -52,8 +55,12 @@ WSGI_APPLICATION = 'lendme.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lendme',
+        'USER': 'lendme',
+        'PASSWORD': 'thepaik88',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

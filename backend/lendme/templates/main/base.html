@@ -12,12 +12,12 @@
 </head>
 <body>
 
-  <header>
+  <header class="header">
     {% include 'main/header.html' %}
   </header>
 
   {% block content %}
-    Контент не подвезли
+  <!-- Здесь будет отображаться контент -->
   {% endblock %}
 
   <footer>
@@ -25,7 +25,8 @@
   </footer>
 
 
-<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="{% static 'js/scroll.js' %}"></script>
 <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 </body>

@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.text import slugify
+from django.utils.crypto import get_random_string
 
 User = get_user_model()
 
@@ -47,13 +49,13 @@ class Item(models.Model):
     )
     name = models.CharField(
         max_length=200,
-        unique=True,
+        unique=False,
         verbose_name='Название'
     )
     slug = models.SlugField(
-        max_length=200,
         unique=True,
         verbose_name='URL',
+        blank=True,
     )
     description = models.TextField(
         verbose_name='Описание'
@@ -81,6 +83,20 @@ class Item(models.Model):
         auto_now_add=True,
         verbose_name='Дата публикации'
     )
+
+    def generate_slug(self):
+        slug = slugify(self.name)
+        unique_slug = slug
+        num = 1
+        while Item.objects.filter(slug=unique_slug).exists():
+            unique_slug = '{}-{}'.format(slug, num)
+            num += 1
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.generate_slug()
+        super(Item, self).save(*args, **kwargs)
 
     @property
     def price_with_symbol(self):

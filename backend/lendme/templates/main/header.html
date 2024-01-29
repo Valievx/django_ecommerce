@@ -1,10 +1,17 @@
 {% load static %}
-<header class="header">
-  <nav class="container">
-    <a class="logo" href="{% url 'main:index' %}">LendMe</a>
+<div class="layout">
+  <div class="content">
+    <div>
+      <a href="{% url 'main:index' %}" class="logo">LendMe</a>
+    </div>
+    <div class="search_line">
+      <form class="search" role="search" action="{% url 'catalog:search' %}" method="get">
+        <input type="search" name="q" class="searchTerm" placeholder="Поиск по объявлениям">
+      </form>
+    </div>
     <ul class="menu">
-      <li><a class="nav_item" href="#">Вход и регистрация</a></li>
-      <li><a class="create-item-btn" href="#">Разместить объявление</a></li>
+      <li><a href="#" class="nav_item">Вход и регистрация</a></li>
+      <li><a href="#" class="create-item-btn">Разместить объявление</a></li>
     </ul>
-  </nav>
-</header>
+  </div>
+</div>
