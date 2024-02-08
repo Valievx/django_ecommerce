@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'catalog.apps.CatalogConfig',
     'api.apps.ApiConfig',
+    'users.apps.UsersConfig',
     'rest_framework',
 ]
 
@@ -96,3 +97,4 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'users.User'

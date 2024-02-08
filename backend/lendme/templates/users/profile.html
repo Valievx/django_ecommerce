@@ -1,0 +1,402 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<div class="container">
+    <!-- Профиль с данными пользователя -->
+<div class="container light-style flex-grow-1 container-p-y">
+        <h4 class="font-weight-bold py-3 mb-4">
+            Управление профилем
+        </h4>
+        <div class="card overflow-hidden">
+            <div class="row no-gutters row-bordered row-border-light">
+                <div class="col-md-3 pt-0">
+                    <div class="list-group list-group-flush account-settings-links">
+                        <a class="list-group-item list-group-item-action active" data-toggle="list"
+                            href="#account-general">Общее</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-change-password">Change password</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-info">Info</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-social-links">Social links</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-connections">Connections</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-notifications">Notifications</a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="account-general">
+
+                            <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body media align-items-center">
+                                    {% if user.image %}
+                                        <img src="{{ user.image.url }}"
+                                        alt="Аватар" class="img-fluid"
+                                        style="max-width: 150px;">
+                                    {% else %}
+                                        <img src="{% static '' %}"
+                                        alt="Аватар" class="img-fluid "
+                                        style="max-width: 150px;">
+                                    {% endif %}
+
+                                    <div class="media-body ml-4">
+                                        <label class="btn btn-outline-primary">
+                                            Upload new photo
+                                            <input type="file" class="account-settings-fileinput"
+                                                   id="id_image" name="image" accept="image/*">
+                                                   {% if form.image.errors %}
+                                                   <div style="color:red">{{ form.image.errors }}</div>
+                                                   {% endif %}
+                                        </label> &nbsp;
+                                    </div>
+                                </div>
+                                <hr class="border-light m-0">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="id_username" class="form-label">Username</label>
+                                        <input type="text" class="form-control mb-1" id="id_username"
+                                               name="username" value="{{ form.username.value }}" required>
+                                               {% if form.username.errors %}
+                                               <div style="color:red">{{ form.username.errors }}</div>
+                                               {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_first_name" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="id_first_name"
+                                               name="first_name" value="{{ form.first_name.value }}" required>
+                                               {% if form.first_name.errors %}
+                                               <div style="color:red">{{ form.first_name.errors }}</div>
+                                               {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_last_name" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="id_last_name"
+                                               name="last_name" value="{{ form.last_name.value }}" required>
+                                               {% if form.last_name.errors %}
+                                               <div style="color:red">{{ form.last_name.errors }}</div>
+                                               {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id_email" class="form-label">E-mail</label>
+                                        <input type="text" class="form-control mb-1" id="id_email"
+                                               name="email" value="{{ form.email.value }}" required>
+                                               {% if form.email.errors %}
+                                               <div style="color:red">{{ form.email.errors }}</div>
+                                               {% endif %}
+                                        <div class="alert alert-warning mt-3">
+                                            Your email is not confirmed. Please check your inbox.<br>
+                                            <a href="javascript:void(0)">Resend confirmation</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="account-change-password">
+                            <div class="card-body pb-2">
+                                <div class="form-group">
+                                    <label class="form-label">Current password</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">New password</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Repeat new password</label>
+                                    <input type="password" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-info">
+                            <div class="card-body pb-2">
+                                <div class="form-group">
+                                    <label class="form-label">Bio</label>
+                                    <textarea class="form-control"
+                                        rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Birthday</label>
+                                    <input type="text" class="form-control" value="May 3, 1995">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Country</label>
+                                    <select class="custom-select">
+                                        <option>USA</option>
+                                        <option selected>Canada</option>
+                                        <option>UK</option>
+                                        <option>Germany</option>
+                                        <option>France</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr class="border-light m-0">
+                            <div class="card-body pb-2">
+                                <h6 class="mb-4">Contacts</h6>
+                                <div class="form-group">
+                                    <label class="form-label">Phone</label>
+                                    <input type="text" class="form-control" value="+0 (123) 456 7891">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Website</label>
+                                    <input type="text" class="form-control" value>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-social-links">
+                            <div class="card-body pb-2">
+                                <div class="form-group">
+                                    <label class="form-label">Twitter</label>
+                                    <input type="text" class="form-control" value="https://twitter.com/user">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Facebook</label>
+                                    <input type="text" class="form-control" value="https://www.facebook.com/user">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Google+</label>
+                                    <input type="text" class="form-control" value>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">LinkedIn</label>
+                                    <input type="text" class="form-control" value>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Instagram</label>
+                                    <input type="text" class="form-control" value="https://www.instagram.com/user">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-connections">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-twitter">Connect to
+                                    <strong>Twitter</strong></button>
+                            </div>
+                            <hr class="border-light m-0">
+                            <div class="card-body">
+                                <h5 class="mb-2">
+                                    <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i
+                                            class="ion ion-md-close"></i> Remove</a>
+                                    <i class="ion ion-logo-google text-google"></i>
+                                    You are connected to Google:
+                                </h5>
+                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                    data-cfemail="f9979498818e9c9595b994989095d79a9694">[email&#160;protected]</a>
+                            </div>
+                            <hr class="border-light m-0">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-facebook">Connect to
+                                    <strong>Facebook</strong></button>
+                            </div>
+                            <hr class="border-light m-0">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-instagram">Connect to
+                                    <strong>Instagram</strong></button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-notifications">
+                            <div class="card-body pb-2">
+                                <h6 class="mb-4">Activity</h6>
+                                <div class="form-group">
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">Email me when someone comments on my article</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">Email me when someone answers on my forum
+                                            thread</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input">
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">Email me when someone follows me</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <hr class="border-light m-0">
+                            <div class="card-body pb-2">
+                                <h6 class="mb-4">Application</h6>
+                                <div class="form-group">
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">News and announcements</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input">
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">Weekly product updates</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="switcher">
+                                        <input type="checkbox" class="switcher-input" checked>
+                                        <span class="switcher-indicator">
+                                            <span class="switcher-yes"></span>
+                                            <span class="switcher-no"></span>
+                                        </span>
+                                        <span class="switcher-label">Weekly blog digest</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right mt-3">
+            <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
+            <button type="button" class="btn btn-default">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+
+<!--                &lt;!&ndash; Оформленные заказы &ndash;&gt;-->
+<!--            <div class="col-md-12">-->
+<!--                <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">-->
+<!--                    <h3 class="text-center mb-4">Мои заказы</h3>-->
+<!--                    &lt;!&ndash; Разметка заказов &ndash;&gt;-->
+<!--                    <div class="container">-->
+<!--                        <div class="accordion" id="accordionExample">-->
+<!--                            {% for order in orders %}-->
+<!--                            <div class="accordion-item">-->
+<!--                                <h2 class="accordion-header" id="heading{{ order.id }}">-->
+<!--                                    <button class="accordion-button {% if order != orders.0 %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ order.id }}" aria-expanded="false" aria-controls="collapse{{ order.id }}">-->
+<!--                                        Заказ № {{ order.id }} - {{ order.created_timestamp }} | Статус: <strong class="mx-2">{{order.requires_delivery}}</strong>-->
+<!--                                    </button>-->
+<!--                                </h2>-->
+<!--                                <div id="collapse{{ order.id }}" class="accordion-collapse collapse {% if order == orders.0 %}show{% endif %}" aria-labelledby="heading{{ order.id }}" data-bs-parent="#accordionExample">-->
+<!--                                    <div class="accordion-body">-->
+<!--                                        <table class="table table-dark table-hover">-->
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th>Товар</th>-->
+<!--                                                    <th>Количество</th>-->
+<!--                                                    <th>Цена</th>-->
+<!--                                                    <th>Общая стоимость</th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
+<!--                                            <tbody>-->
+<!--                                                {% for item in order.orderitem_set.all %}-->
+<!--                                                <tr>-->
+<!--                                                    <td><a class="text-white" href="{% url 'goods:product' item.product.slug %}">{{ item.product.name }}</a></td>-->
+<!--                                                    <td>{{ item.quantity }}</td>-->
+<!--                                                    <td>{{ item.price }}</td>-->
+<!--                                                    <td>{{ item.products_price }}</td>-->
+
+<!--                                                </tr>-->
+<!--                                                {% endfor %}-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="container">-->
+<!--                        <div class="accordion" id="accordionExample">-->
+<!--                            <div class="accordion-item">-->
+<!--                                <h2 class="accordion-header" id="heading1">-->
+<!--                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">-->
+<!--                                        Заказ № 256 - 09 сентября 2023 9:04 | Статус:<strong class="mx-2"> В обработке</strong>-->
+<!--                                    </button>-->
+<!--                                </h2>-->
+<!--                                <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionExample">-->
+<!--                                    <div class="accordion-body">-->
+<!--                                        <table class="table table-dark table-hover">-->
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th>Товар</th>-->
+<!--                                                    <th>Количество</th>-->
+<!--                                                    <th>Цена</th>-->
+<!--                                                    <th>Общая стоимость</th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
+<!--                                            <tbody>-->
+<!--                                                <tr>-->
+<!--                                                    <td><a class="text-white" href="#">Комплект стол и три стула</a></td>-->
+<!--                                                    <td>1</td>-->
+<!--                                                    <td>255.00 $</td>-->
+<!--                                                    <td>255.00 $</td>-->
+
+<!--                                                </tr>-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+<!--                                        <div class="d-flex justify-content-between">-->
+<!--                                            <p><strong>Итого:</strong></p>-->
+<!--                                            <p><strong>255.00 $</strong></p>-->
+
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="accordion-item">-->
+<!--                                <h2 class="accordion-header" id="heading2">-->
+<!--                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">-->
+<!--                                        Заказ № 248 - 01 августа 2023 11:28 | Статус: <strong>Получен</strong>-->
+<!--                                    </button>-->
+<!--                                </h2>-->
+<!--                                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#accordionExample">-->
+<!--                                    <div class="accordion-body">-->
+<!--                                        <table class="table table-dark table-hover">-->
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th>Товар</th>-->
+<!--                                                    <th>Количество</th>-->
+<!--                                                    <th>Цена</th>-->
+<!--                                                    <th>Общая стоимость</th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
+<!--                                            <tbody>-->
+<!--                                                <tr>-->
+<!--                                                    <td><a class="text-white" href="#">Стул офисный</a></td>-->
+<!--                                                    <td>2</td>-->
+<!--                                                    <td>30.00 $</td>-->
+<!--                                                    <td>60.00 $</td>-->
+
+<!--                                                </tr>-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; Закончилась разметка заказов &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+</div>
+{% endblock %}
