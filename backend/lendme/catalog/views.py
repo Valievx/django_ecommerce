@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from catalog.models import Category, Item
 from catalog.utils import q_search
 
@@ -18,6 +19,7 @@ def catalog(request, category_slug=None):
     )
 
 
+@login_required
 def product(request, product_slug):
     product = Item.objects.get(slug=product_slug)
     context: dict = {

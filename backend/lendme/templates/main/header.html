@@ -14,19 +14,24 @@
 
     <ul class="menu">
       {% if request.user.is_authenticated %}
-      <li><a href="#">Мои объявления</a></li>
+      <li><a class="header-link" href="{% url 'user:profile' %}">Мои объявления</a></li>
       <li class="dropdown">
-      <a href="#">{{ user.first_name }}</a>
+        <a class="header-link" href="{% url 'user:profile' %}">
+          <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}"
+               class="avatar" alt="avatar"/>
+          {{ user.first_name }}
+        </a>
         <div class="dropdown-content">
-          <a class="dropdown-content-link" href="#">Мои объявления</a>
+          <a class="dropdown-content-link" href="{% url 'user:profile' %}">Мои объявления</a>
           <a class="dropdown-content-link" href="{% url 'user:profile' %}">Мой профиль</a>
           <a class="dropdown-content-link" href="{% url 'user:logout' %}">Выйти</a>
         </div>
       </li>
-      <li><a href="#" class="create-item-btn">Разместить объявление</a></li>
+
+      <li><a href="{% url 'main:additem' %}" class="create-item-btn">Разместить объявление</a></li>
       {% else %}
-      <li><a href="{% url 'user:login' %}" class="nav_item" id="open-pop-up">Вход и регистрация</a></li>
-      <li><a href="#" class="create-item-btn">Разместить объявление</a></li>
+      <li><a href="{% url 'user:login' %}" class="nav_item">Вход и регистрация</a></li>
+      <li><a href="{% url 'main:additem' %}" class="create-item-btn">Разместить объявление</a></li>
       {% endif %}
     </ul>
   </div>

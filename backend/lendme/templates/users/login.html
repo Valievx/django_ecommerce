@@ -13,7 +13,7 @@
 
 					<!-- Регистрация -->
 					<div class="form-container sign-up-container">
-						<form class="form-control" action="{% url 'user:registration' %}" method="post">
+						<form class="form-control-login" action="{% url 'user:registration' %}" method="post">
 							{% csrf_token %}
 							<h1>Регистрация</h1>
 							<div class="social-container">
@@ -89,7 +89,7 @@
 
 					<!-- Авторизация -->
 					<div class="form-container sign-in-container">
-					<form class="form-control" action="{% url 'user:login' %}" method="post">
+					<form class="form-control-login" action="{% url 'user:login' %}" method="post">
 						{% csrf_token %}
 						{{ form.non_field_errors }}
 						<h1>Вход</h1>

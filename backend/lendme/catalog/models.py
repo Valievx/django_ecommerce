@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils.text import slugify
-from django.utils.crypto import get_random_string
+from datetime import datetime
+from unidecode import unidecode
 
 User = get_user_model()
 
@@ -67,35 +67,29 @@ class Item(models.Model):
     price = models.IntegerField(
         verbose_name='Цена'
     )
-    time_period = models.PositiveIntegerField(
-        verbose_name='Период времени'
-    )
-    time_period_unit = models.CharField(
+    time_period = models.CharField(
         max_length=20,
         choices=[
-            ('День', 'День'),
             ('Час', 'Час'),
-            ('Минута', 'Минута')
+            ('Сутки', 'Сутки'),
+            ('Месяц', 'Месяц'),
         ],
-        verbose_name='Единица времени'
+        verbose_name='Период времени'
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата публикации'
     )
 
-    def generate_slug(self):
-        slug = slugify(self.name)
-        unique_slug = slug
-        num = 1
-        while Item.objects.filter(slug=unique_slug).exists():
-            unique_slug = '{}-{}'.format(slug, num)
-            num += 1
-        return unique_slug
-
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.generate_slug()
+        if self.name.isascii():
+            self.slug = self.name.lower()
+        else:
+            self.slug = unidecode(self.name).lower()
+
+        self.slug = self.slug.replace(' ', '_')
+        self.slug = self.slug + "_{:%Y%m%d%H%M%S}".format(datetime.now())
+
         super(Item, self).save(*args, **kwargs)
 
     @property
