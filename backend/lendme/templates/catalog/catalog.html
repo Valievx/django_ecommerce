@@ -14,7 +14,7 @@
             <div class="product-item">
                 <div class="product-img">
                     <a href="{% url 'catalog:product' item.slug %}">
-                        <img src="{{ item.image.url }}" alt="{{ item.slug }}">
+                        <img src="{{ item.image.image.url }}" alt="{{ item.slug }}">
                     </a>
                 </div>
                 <div class="product-list">

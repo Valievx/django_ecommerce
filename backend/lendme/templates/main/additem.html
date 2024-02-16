@@ -4,6 +4,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
@@ -31,7 +32,7 @@
             <div class="form-group">
                 <label for="id_name" class="form-label">Название объявления</label>
                 <input type="text" class="form-control" id="id_name"
-                       name="name" required {% if form.name.value %}value="{{ form.name.value }}"{% endif %}>
+                       name="name" required>
                        {% if form.name.errors %}
                        <div style="color:red">{{ form.name.errors }}</div>
                        {% endif %}
@@ -72,15 +73,20 @@
             </div>
 
             <!-- Изображение -->
-            <div class="media-body">
-                <label class="btn btn-outline-primary">
-                    Добавить фото
-                    <input type="file" class="account-settings-fileinput"
-                           id="id_image" name="image" accept="image/*">
-                           {% if form.image.errors %}
-                           <div style="color:red">{{ form.image.errors }}</div>
-                           {% endif %}
-                </label>
+            <div class="file-dnd">
+              <label class="upload-image">Загрузите свои фото:</label>
+              {{imageform.image}}
+              <div class="before-upload">
+                <div>
+                  <i class="fa fa-image"></i>
+                  <h4>Drag & Drop image file or Browse</h4>
+                  <p>Supports: JPEG, PNG, GIF, TIFF</p>
+                </div>
+              </div>
+              <div class="after-upload">
+                <div class="clear-btn">&times;</div>
+                <div class="image-preview-container"></div>
+              </div>
             </div>
 
 

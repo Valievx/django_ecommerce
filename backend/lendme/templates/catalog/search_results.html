@@ -11,9 +11,13 @@
     <div class="product-card">
         <div class="product-item">
             <div class="product-img">
+            {% for photo_preview in photos_preview %}
+              {% if photo_preview.item == item %}
                 <a href="{% url 'catalog:product' item.slug %}">
-                    <img src="{{ item.image.url }}" alt="{{ item.slug }}">
+                    <img src="{{ photo_preview.image.url }}" alt="{{ item.slug }}">
                 </a>
+              {% endif %}
+            {% endfor %}
             </div>
             <div class="product-list">
                 <a class="product-name" href="{% url 'catalog:product' item.slug %}">

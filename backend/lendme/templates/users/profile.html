@@ -16,8 +16,8 @@
                     <div class="list-group list-group-flush account-settings-links">
                         <a class="list-group-item list-group-item-action active" data-toggle="list"
                             href="#account-general">Общее</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-change-password">Change password</a>
+                        <a class="list-group-item list-group-item-action"
+                            href="{% url 'user:password_change' %}">Изменить пароль</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-info">Info</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
@@ -30,13 +30,14 @@
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
-                        <div class="tab-pane fade active show" id="account-general">
 
+                        <!--Общее-->
+                        <div class="tab-pane fade active show" id="account-general">
                             <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="card-body media align-items-center">
-                                    {% if user.image %}
-                                        <img src="{{ user.image.url }}"
+                                    {% if user.avatar %}
+                                        <img src="{{ user.avatar.url }}"
                                         alt="Аватар" class="img-fluid rounded-circle"
                                         style="max-width: 200px;">
                                     {% else %}
@@ -48,23 +49,15 @@
                                         <label class="btn btn-outline-primary">
                                             Upload new photo
                                             <input type="file" class="account-settings-fileinput"
-                                                   id="id_image" name="image" accept="image/*">
-                                                   {% if form.image.errors %}
-                                                   <div style="color:red">{{ form.image.errors }}</div>
+                                                   id="id_avatar" name="avatar" accept="image/*">
+                                                   {% if form.avatar.errors %}
+                                                   <div style="color:red">{{ form.avatar.errors }}</div>
                                                    {% endif %}
                                         </label>
                                     </div>
                                 </div>
                                 <hr class="border-light m-0">
                                 <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="id_username" class="form-label">Username</label>
-                                        <input type="text" class="form-control mb-1" id="id_username"
-                                               name="username" value="{{ form.username.value }}" required>
-                                               {% if form.username.errors %}
-                                               <div style="color:red">{{ form.username.errors }}</div>
-                                               {% endif %}
-                                    </div>
                                     <div class="form-group">
                                         <label for="id_first_name" class="form-label">First Name</label>
                                         <input type="text" class="form-control" id="id_first_name"
@@ -94,9 +87,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                         </div>
+
                         <div class="tab-pane fade" id="account-change-password">
                             <div class="card-body pb-2">
                                 <div class="form-group">
@@ -113,6 +105,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="tab-pane fade" id="account-info">
                             <div class="card-body pb-2">
                                 <div class="form-group">
@@ -287,18 +281,22 @@
         Мои объявления:
     </h4>
 
-    {% for ad in ads %}
+    {% for item in items %}
     <div class="card-container-profile">
       <div class="card-profile">
-          <a href="/catalog/product/{{ad.slug}}">
-              <img src="{{ad.image.url}}" alt="{{item.name}}" />
+          <a href="/catalog/product/{{item.slug}}">
+            {% for photo_preview in photos_preview %}
+              {% if photo_preview.item == item %}
+                <img id="featured-profile" src="{{ photo_preview.image.url }}" alt="{{item.name}}" />
+              {% endif %}
+            {% endfor %}
           </a>
         <div class="card-content-profile">
-            <a href="/catalog/product/{{ad.slug}}">
-                <h5 class="card-name-profile">{{ad.name}}</h5>
+            <a href="/catalog/product/{{item.slug}}">
+                <h5 class="card-name-profile">{{item.name}}</h5>
             </a>
-          <p>{{ad.description}}</p>
-          <p>{{ad.price}}₽/{{ad.time_period}}</p>
+          <p>{{item.description}}</p>
+          <p>{{item.price}}₽/{{item.time_period}}</p>
         </div>
       </div>
     </div>

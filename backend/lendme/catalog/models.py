@@ -53,16 +53,13 @@ class Item(models.Model):
         verbose_name='Название'
     )
     slug = models.SlugField(
+        max_length=100,
         unique=True,
         verbose_name='URL',
         blank=True,
     )
     description = models.TextField(
         verbose_name='Описание'
-    )
-    image = models.ImageField(
-        upload_to='items',
-        verbose_name='Изображение'
     )
     price = models.IntegerField(
         verbose_name='Цена'
@@ -87,6 +84,7 @@ class Item(models.Model):
         else:
             self.slug = unidecode(self.name).lower()
 
+        self.slug = self.slug.replace("'", "y")  # Заменяем 'ь, ъ' на 'y'
         self.slug = self.slug.replace(' ', '_')
         self.slug = self.slug + "_{:%Y%m%d%H%M%S}".format(datetime.now())
 
@@ -103,3 +101,23 @@ class Item(models.Model):
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
         ordering = ('-pub_date',)
+
+
+class ItemImage(models.Model):
+    """ Модель изображения товара """
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        verbose_name='Товар'
+    )
+    image = models.ImageField(
+        upload_to='items',
+        verbose_name='Изображение'
+    )
+
+    def __str__(self):
+        return self.item.name
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'

@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Item
+from catalog.models import Item, ItemImage
 
 
 class ItemForm(forms.ModelForm):
@@ -11,7 +11,15 @@ class ItemForm(forms.ModelForm):
             'category',
             'name',
             'description',
-            'image',
             'price',
             'time_period',
         )
+
+
+class ItemImageForm(forms.ModelForm):
+    image = forms.ImageField(
+        widget=forms.FileInput(attrs={"multiple": True, "id": "upload-image"}))
+
+    class Meta:
+        model = ItemImage
+        fields = ('image',)

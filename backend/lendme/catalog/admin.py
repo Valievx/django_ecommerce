@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from catalog.models import Category, Item
+from catalog.models import Category, Item, ItemImage
+
+
+class ItemImageAdmin(admin.StackedInline):
+    model = ItemImage
 
 
 @admin.register(Category)
@@ -12,4 +16,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    """ Админ-панель модели товара """
     prepopulated_fields: dict = {'slug': ('name',)}
+    inlines = [ItemImageAdmin]
+
+
+@admin.register(ItemImage)
+class ItemImage(admin.ModelAdmin):
+    pass
