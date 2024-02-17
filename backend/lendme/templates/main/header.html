@@ -14,16 +14,16 @@
 
     <ul class="menu">
       {% if request.user.is_authenticated %}
-      <li><a class="header-link" href="{% url 'user:profile' %}">Мои объявления</a></li>
+      <li><a class="header-link" href="{% url 'user:profile_edit' %}">Мои объявления</a></li>
       <li class="dropdown">
-        <a class="header-link" href="{% url 'user:profile' %}">
+        <a class="header-link" href="{% url 'user:profile_edit' %}">
           <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}"
                class="avatar" alt="avatar"/>
           {{ user.first_name }}
         </a>
         <div class="dropdown-content">
-          <a class="dropdown-content-link" href="{% url 'user:profile' %}">Мои объявления</a>
-          <a class="dropdown-content-link" href="{% url 'user:profile' %}">Мой профиль</a>
+          <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мои объявления</a>
+          <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мой профиль</a>
           <a class="dropdown-content-link" href="{% url 'user:logout' %}">Выйти</a>
         </div>
       </li>

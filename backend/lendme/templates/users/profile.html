@@ -1,307 +1,44 @@
 {% extends "main/base.html" %}
 {% load static %}
-{% block title %} {{ title }} {% endblock %}
+{% block title %} {{ author.get_full_name }}. Профиль пользователя на LendMe {% endblock %}
 {% block content %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <div class="container">
-    <!-- Профиль с данными пользователя -->
-<div class="container light-style flex-grow-1 container-p-y">
-        <h4 class="font-weight-bold py-3 mb-4">
-            Управление профилем
-        </h4>
-        <div class="card overflow-hidden">
-            <div class="row no-gutters row-bordered row-border-light">
-                <div class="col-md-3 pt-0">
-                    <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list"
-                            href="#account-general">Общее</a>
-                        <a class="list-group-item list-group-item-action"
-                            href="{% url 'user:password_change' %}">Изменить пароль</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-info">Info</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-social-links">Social links</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-connections">Connections</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list"
-                            href="#account-notifications">Notifications</a>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <div class="tab-content">
+    <div class="profile">
+        <div class="profile-left">
+            <div class="avatar-profile">
+                <img src="
+                    {% if author.avatar %}
+                    {{ author.avatar.url }}
+                    {% else %}
+                    {% static 'avatar/avatar.jpg' %}{% endif %}" />
+            </div>
+            <h3>{{ author.get_full_name }}</h3>
+            <p>Rating: 4.5</p>
+            <p>На LendMe с {{ author.date_joined }}</p>
+        </div>
 
-                        <!--Общее-->
-                        <div class="tab-pane fade active show" id="account-general">
-                            <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="card-body media align-items-center">
-                                    {% if user.avatar %}
-                                        <img src="{{ user.avatar.url }}"
-                                        alt="Аватар" class="img-fluid rounded-circle"
-                                        style="max-width: 200px;">
-                                    {% else %}
-                                        <img src="{% static 'avatar/avatar.jpg' %}"
-                                        alt="Аватар" class="img-fluid rounded-circle"
-                                        style="max-width: 200px;">
-                                    {% endif %}
-                                    <div class="media-body ml-4">
-                                        <label class="btn btn-outline-primary">
-                                            Upload new photo
-                                            <input type="file" class="account-settings-fileinput"
-                                                   id="id_avatar" name="avatar" accept="image/*">
-                                                   {% if form.avatar.errors %}
-                                                   <div style="color:red">{{ form.avatar.errors }}</div>
-                                                   {% endif %}
-                                        </label>
-                                    </div>
-                                </div>
-                                <hr class="border-light m-0">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="id_first_name" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="id_first_name"
-                                               name="first_name" value="{{ form.first_name.value }}" required>
-                                               {% if form.first_name.errors %}
-                                               <div style="color:red">{{ form.first_name.errors }}</div>
-                                               {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id_last_name" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="id_last_name"
-                                               name="last_name" value="{{ form.last_name.value }}" required>
-                                               {% if form.last_name.errors %}
-                                               <div style="color:red">{{ form.last_name.errors }}</div>
-                                               {% endif %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id_email" class="form-label">E-mail</label>
-                                        <input type="text" class="form-control mb-1" id="id_email"
-                                               name="email" value="{{ form.email.value }}" required>
-                                               {% if form.email.errors %}
-                                               <div style="color:red">{{ form.email.errors }}</div>
-                                               {% endif %}
-                                        <div class="alert alert-warning mt-3">
-                                            Your email is not confirmed. Please check your inbox.<br>
-                                            <a href="javascript:void(0)">Resend confirmation</a>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="account-change-password">
-                            <div class="card-body pb-2">
-                                <div class="form-group">
-                                    <label class="form-label">Current password</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">New password</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Repeat new password</label>
-                                    <input type="password" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="tab-pane fade" id="account-info">
-                            <div class="card-body pb-2">
-                                <div class="form-group">
-                                    <label class="form-label">Bio</label>
-                                    <textarea class="form-control"
-                                        rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Birthday</label>
-                                    <input type="text" class="form-control" value="May 3, 1995">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Country</label>
-                                    <select class="custom-select">
-                                        <option>USA</option>
-                                        <option selected>Canada</option>
-                                        <option>UK</option>
-                                        <option>Germany</option>
-                                        <option>France</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body pb-2">
-                                <h6 class="mb-4">Contacts</h6>
-                                <div class="form-group">
-                                    <label class="form-label">Phone</label>
-                                    <input type="text" class="form-control" value="+0 (123) 456 7891">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Website</label>
-                                    <input type="text" class="form-control" value>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="account-social-links">
-                            <div class="card-body pb-2">
-                                <div class="form-group">
-                                    <label class="form-label">Twitter</label>
-                                    <input type="text" class="form-control" value="https://twitter.com/user">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Facebook</label>
-                                    <input type="text" class="form-control" value="https://www.facebook.com/user">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Google+</label>
-                                    <input type="text" class="form-control" value>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">LinkedIn</label>
-                                    <input type="text" class="form-control" value>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Instagram</label>
-                                    <input type="text" class="form-control" value="https://www.instagram.com/user">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="account-connections">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-twitter">Connect to
-                                    <strong>Twitter</strong></button>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body">
-                                <h5 class="mb-2">
-                                    <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i
-                                            class="ion ion-md-close"></i> Remove</a>
-                                    <i class="ion ion-logo-google text-google"></i>
-                                    You are connected to Google:
-                                </h5>
-                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                    data-cfemail="f9979498818e9c9595b994989095d79a9694">[email&#160;protected]</a>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-facebook">Connect to
-                                    <strong>Facebook</strong></button>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-instagram">Connect to
-                                    <strong>Instagram</strong></button>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="account-notifications">
-                            <div class="card-body pb-2">
-                                <h6 class="mb-4">Activity</h6>
-                                <div class="form-group">
-                                    <label class="switcher">
-                                        <input type="checkbox" class="switcher-input" checked>
-                                        <span class="switcher-indicator">
-                                            <span class="switcher-yes"></span>
-                                            <span class="switcher-no"></span>
-                                        </span>
-                                        <span class="switcher-label">Email me when someone comments on my article</span>
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="switcher">
-                                        <input type="checkbox" class="switcher-input" checked>
-                                        <span class="switcher-indicator">
-                                            <span class="switcher-yes"></span>
-                                            <span class="switcher-no"></span>
-                                        </span>
-                                        <span class="switcher-label">Email me when someone answers on my forum
-                                            thread</span>
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="switcher">
-                                        <input type="checkbox" class="switcher-input">
-                                        <span class="switcher-indicator">
-                                            <span class="switcher-yes"></span>
-                                            <span class="switcher-no"></span>
-                                        </span>
-                                        <span class="switcher-label">Email me when someone follows me</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <hr class="border-light m-0">
-                            <div class="card-body pb-2">
-                                <h6 class="mb-4">Application</h6>
-                                <div class="form-group">
-                                    <label class="switcher">
-                                        <input type="checkbox" class="switcher-input" checked>
-                                        <span class="switcher-indicator">
-                                            <span class="switcher-yes"></span>
-                                            <span class="switcher-no"></span>
-                                        </span>
-                                        <span class="switcher-label">News and announcements</span>
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="switcher">
-                                        <input type="checkbox" class="switcher-input">
-                                        <span class="switcher-indicator">
-                                            <span class="switcher-yes"></span>
-                                            <span class="switcher-no"></span>
-                                        </span>
-                                        <span class="switcher-label">Weekly product updates</span>
-                                    </label>
-                                </div>
-                                <div class="form-group">
-                                    <label class="switcher">
-                                        <input type="checkbox" class="switcher-input" checked>
-                                        <span class="switcher-indicator">
-                                            <span class="switcher-yes"></span>
-                                            <span class="switcher-no"></span>
-                                        </span>
-                                        <span class="switcher-label">Weekly blog digest</span>
-                                    </label>
-                                </div>
-                            </div>
+        <div class="profile-right">
+            <h3>Объявления пользователя</h3>
+            <div class="item-cards">
+                {% for item in items %}
+                <div class="product-item">
+                    <div class="product-img">
+                        <a href="/catalog/product/{{ item.slug }}/">
+                            <img src="{{ item.itemimage_set.first.image.url }}" alt="{{ item.name }}">
+                        </a>
+                        <div class="product-list">
+                            <a class="product-name" href="/catalog/product/{{ item.slug }}/">
+                            <h3>{{ item.name }}</h3>
+                            </a>
+                            <p class="price">{{ item.price }}₽/{{ item.time_period }}</p>
+                            <p class="data">{{ item.pub_date }}</p>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
-        <div class="text-right mt-3">
-            <button type="submit" class="btn btn-primary">Save changes</button>&nbsp;
-            <button type="button" class="btn btn-default">Cancel</button>
-            </form>
-        </div>
     </div>
-
-
-
-
-    <h4 class="font-weight-bold py-3 mb-4">
-        Мои объявления:
-    </h4>
-
-    {% for item in items %}
-    <div class="card-container-profile">
-      <div class="card-profile">
-          <a href="/catalog/product/{{item.slug}}">
-            {% for photo_preview in photos_preview %}
-              {% if photo_preview.item == item %}
-                <img id="featured-profile" src="{{ photo_preview.image.url }}" alt="{{item.name}}" />
-              {% endif %}
-            {% endfor %}
-          </a>
-        <div class="card-content-profile">
-            <a href="/catalog/product/{{item.slug}}">
-                <h5 class="card-name-profile">{{item.name}}</h5>
-            </a>
-          <p>{{item.description}}</p>
-          <p>{{item.price}}₽/{{item.time_period}}</p>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-
-
 </div>
 {% endblock %}

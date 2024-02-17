@@ -32,6 +32,16 @@
         <h5>{{product.description}}</h5>
         <hr>
         <h4>Цена: {{ product.price }} ₽/{{ product.time_period }}</h4>
+        <p>Продавец:
+
+          <a href="{% url 'users:profile' product.author.id %}">{{ product.author.get_full_name }}
+            <img src="
+            {% if product.author.avatar %}
+            {{ product.author.avatar.url }}
+            {% else %}
+            {% static 'avatar/avatar.jpg' %}{% endif %}" />
+          </a>
+        </p>
       </div>
 		</div>
   </div>

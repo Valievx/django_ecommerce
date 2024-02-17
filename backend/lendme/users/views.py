@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
-from django.contrib import auth, messages
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
+from users.models import User
 from catalog.models import Item, ItemImage
 from .forms import (UserLoginForm, UserRegistrationForm,
                     ProfileForm, UserForgotPasswordForm,
@@ -65,7 +65,7 @@ def registration(request):
 
 
 @login_required
-def profile(request):
+def profile_edit(request):
     items = Item.objects.filter(author=request.user)
     photos_preview = []
 
@@ -91,6 +91,22 @@ def profile(request):
         'form': form,
         'items': items,
         'photos_preview': photos_preview
+    }
+    return render(
+        request,
+        template_name='users/profile_edit.html',
+        context=context
+    )
+
+
+@login_required
+def profile(request, id):
+    author = get_object_or_404(User, id=id)
+    items = Item.objects.filter(author=author)
+
+    context = {
+        'author': author,
+        'items': items,
     }
     return render(
         request,
