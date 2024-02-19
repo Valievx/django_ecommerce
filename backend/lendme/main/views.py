@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
@@ -41,7 +41,7 @@ def get_items(request):
 
 @login_required
 def additem(request):
-    imageform = ItemImageForm()
+    image_form = ItemImageForm()
 
     if request.method == 'POST':
 
@@ -61,11 +61,64 @@ def additem(request):
 
     context = {
         'form': form,
-        'imageform': imageform,
+        'image_form': image_form,
         'categories': Category.objects.all()
     }
     return render(
         request,
         template_name='main/additem.html',
+        context=context
+    )
+
+
+@login_required
+def edit_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id, author=request.user)
+    item_images = ItemImage.objects.filter(item=item)
+
+    previous_image_urls = [image.image.url for image in item_images]
+
+    if request.method == 'POST':
+        form = ItemForm(request.POST, instance=item)
+        image_form = ItemImageForm(request.POST, request.FILES)
+        if form.is_valid() and image_form.is_valid():
+            form.save()
+            new_images = request.FILES.getlist('image')
+            for image in new_images:
+                ItemImage.objects.create(item=item, image=image)
+            return redirect('main:index')
+    else:
+        form = ItemForm(instance=item)
+        image_form = ItemImageForm()
+
+    context = {
+        'form': form,
+        'image_form': image_form,
+        'item': item,
+        'item_images': item_images,
+        'previous_image_urls': previous_image_urls,  # Добавляем список URL предыдущих изображений
+        'categories': Category.objects.all()
+    }
+    return render(
+        request,
+        template_name='main/edit_item.html',
+        context=context
+    )
+
+
+@login_required
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id, author=request.user)
+
+    if request.method == 'POST':
+        item.delete()
+        return redirect('main:index')
+
+    context = {
+        'item': item
+    }
+    return render(
+        request,
+        template_name='main/delete_item.html',
         context=context
     )

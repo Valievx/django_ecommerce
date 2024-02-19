@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
-{% block title %} {{ title }} {% endblock %}
+{% block title %} Редактирование товара {% endblock %}
 {% block content %}
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -10,21 +10,25 @@
     <div class="col-md-8 p-5">
       <div class="card glass">
         <div class="card-header">
-          Новое объявление
+          Редактирование товара
         </div>
         <div class="card-body">
-          <form action="{% url 'main:additem' %}" method="post" enctype="multipart/form-data" >
-          {% csrf_token %}
+          <form action="{% url 'main:edit_item' item.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <!-- Категория -->
             <div class="form-group">
                 <label for="id_category" class="form-label">Категория</label>
                 <select name="category" id="id_category" class="form-control" required>
                     {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% if category.id == form.category.value %}
+                            <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                        {% else %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
                 {% if form.category.errors %}
-                <div style="color: red">{{ form.category.errors }}</div>
+                    <div style="color: red">{{ form.category.errors }}</div>
                 {% endif %}
             </div>
 
@@ -32,7 +36,7 @@
             <div class="form-group">
                 <label for="id_name" class="form-label">Название объявления</label>
                 <input type="text" class="form-control" id="id_name"
-                       name="name" required>
+                       name="name" value="{{ form.name.value }}" required>
                        {% if form.name.errors %}
                        <div style="color:red">{{ form.name.errors }}</div>
                        {% endif %}
@@ -43,7 +47,7 @@
             <div class="form-group">
                 <label for="id_description" class="form-label">Описание объявления</label>
                 <input type="text" class="form-control" id="id_description"
-                       name="description" required>
+                       name="description" value="{{ form.description.value }}" required>
                        {% if form.description.errors %}
                        <div style="color:red">{{ form.description.errors }}</div>
                        {% endif %}
@@ -53,7 +57,7 @@
             <div class="form-group">
                 <label for="id_price" class="form-label">Цена</label>
                 <input type="text" class="form-control" id="id_price"
-                       name="price" required>
+                       name="price" value="{{ form.price.value }}" required>
                        {% if form.price.errors %}
                        <div style="color:red">{{ form.price.errors }}</div>
                        {% endif %}
@@ -64,18 +68,22 @@
                 <label for="id_time_period" class="form-label">Период времени</label>
                 <select name="time_period" id="id_time_period" class="form-control" required>
                     {% for choice in form.time_period.field.choices %}
-                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% if choice.0 == form.time_period.value %}
+                            <option value="{{ choice.0 }}" selected>{{ choice.1 }}</option>
+                        {% else %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
-                       {% if form.time_period.errors %}
-                       <div style="color:red">{{ form.time_period.errors }}</div>
-                       {% endif %}
+                {% if form.time_period.errors %}
+                    <div style="color:red">{{ form.time_period.errors }}</div>
+                {% endif %}
             </div>
 
             <!-- Изображение -->
             <div class="file-dnd">
               <label class="upload-image">Загрузите свои фото:</label>
-              {{image_form.image}}
+              {{ image_form.image }}
               <div class="before-upload">
                 <div>
                   <i class="fa fa-image"></i>
@@ -85,15 +93,16 @@
               </div>
               <div class="after-upload">
                 <div class="clear-btn">&times;</div>
-                <div class="image-preview-container"></div>
+                <div class="image-preview-container">
+                  {% for image_url in previous_image_urls %}
+                    <img src="{{ image_url }}" alt="Previous Image">
+                  {% endfor %}
+                </div>
               </div>
             </div>
-
-
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-primary">Сохранить</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
           </form>
+
         </div>
       </div>
     </div>

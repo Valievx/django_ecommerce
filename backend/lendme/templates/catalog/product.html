@@ -5,79 +5,80 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <div class="container">
-    <h1>{{product.name}}</h1>
-  <div id="content-wrapper">
+    <h1>{{ product.name }}</h1>
+    <div id="content-wrapper">
 
-    <div class="column">
+        <div class="column">
 
-      <img id="featured" src="{{ photo_preview.image.url }}" alt="">
+            <img id="featured" src="{{ photo_preview.image.url }}" alt="">
 
-      <div id="slide-wrapper" >
-        <img id="slideLeft" class="arrow" src="{% static 'icons/arrow-left.png' %}">
+            <div id="slide-wrapper">
+                <img id="slideLeft" class="arrow" src="{% static 'icons/arrow-left.png' %}">
 
-        <div id="slider">
-          {% for p in photos %}
-          <img class="thumbnail" src="{{ p.image.url }}" alt="">
-          {% endfor %}
+                <div id="slider">
+                    {% for p in photos %}
+                    <img class="thumbnail" src="{{ p.image.url }}" alt="">
+                    {% endfor %}
+                </div>
+
+                <img id="slideRight" class="arrow" src="{% static 'icons/arrow-right.png' %}">
+
+            </div>
         </div>
 
-        <img id="slideRight" class="arrow" src="{% static 'icons/arrow-right.png' %}">
 
-      </div>
+        <div class="column">
+            <div class="info">
+                <h5>{{ product.description }}</h5>
+                <hr>
+                <h4>Цена: {{ product.price }} ₽/{{ product.time_period }}</h4>
+                <p>Продавец:
+                    <a href="{% url 'users:profile' product.author.id %}">{{ product.author.get_full_name }}
+                        <img src="{% if product.author.avatar %}{{ product.author.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}" />
+                    </a>
+                </p>
+
+                {% if product.author == request.user %}
+                <div>
+                    <a href="{% url 'main:edit_item' product.id %}" class="btn btn-primary">Редактировать</a>
+                    <a href="{% url 'main:delete_item' product.id %}" class="btn btn-danger">Удалить</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-
-
-    <div class="column">
-      <div class="info">
-        <h5>{{product.description}}</h5>
-        <hr>
-        <h4>Цена: {{ product.price }} ₽/{{ product.time_period }}</h4>
-        <p>Продавец:
-
-          <a href="{% url 'users:profile' product.author.id %}">{{ product.author.get_full_name }}
-            <img src="
-            {% if product.author.avatar %}
-            {{ product.author.avatar.url }}
-            {% else %}
-            {% static 'avatar/avatar.jpg' %}{% endif %}" />
-          </a>
-        </p>
-      </div>
-		</div>
-  </div>
 </div>
 
 
 <script type="text/javascript">
-let thumbnails = document.getElementsByClassName('thumbnail')
+    let thumbnails = document.getElementsByClassName('thumbnail')
 
-let activeImages = document.getElementsByClassName('active')
+    let activeImages = document.getElementsByClassName('active')
 
-for (var i=0; i < thumbnails.length; i++){
+    for (var i = 0; i < thumbnails.length; i++) {
 
-  thumbnails[i].addEventListener('mouseover', function(){
-    console.log(activeImages)
+        thumbnails[i].addEventListener('mouseover', function () {
+            console.log(activeImages)
 
-    if (activeImages.length > 0){
-      activeImages[0].classList.remove('active')
+            if (activeImages.length > 0) {
+                activeImages[0].classList.remove('active')
+            }
+
+            this.classList.add('active')
+            document.getElementById('featured').src = this.src
+        })
     }
 
 
-    this.classList.add('active')
-    document.getElementById('featured').src = this.src
-  })
-}
+    let buttonRight = document.getElementById('slideRight');
+    let buttonLeft = document.getElementById('slideLeft');
 
+    buttonLeft.addEventListener('click', function () {
+        document.getElementById('slider').scrollLeft -= 180
+    })
 
-let buttonRight = document.getElementById('slideRight');
-let buttonLeft = document.getElementById('slideLeft');
-
-buttonLeft.addEventListener('click', function(){
-  document.getElementById('slider').scrollLeft -= 180
-})
-
-buttonRight.addEventListener('click', function(){
-  document.getElementById('slider').scrollLeft += 180
-})
+    buttonRight.addEventListener('click', function () {
+        document.getElementById('slider').scrollLeft += 180
+    })
 </script>
 {% endblock %}
