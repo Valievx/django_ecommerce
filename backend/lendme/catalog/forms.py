@@ -23,3 +23,5 @@ class ItemImageForm(forms.ModelForm):
     class Meta:
         model = ItemImage
         fields = ('image',)
+
+

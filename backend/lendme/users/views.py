@@ -1,16 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import Http404
 
-from users.models import User
 from catalog.models import Item, ItemImage
+from .models import User, Review
 from .forms import (UserLoginForm, UserRegistrationForm,
                     ProfileForm, UserForgotPasswordForm,
-                    UserSetNewPasswordForm)
+                    UserSetNewPasswordForm, ReviewForm)
 
 
 def login(request):
@@ -103,10 +104,27 @@ def profile_edit(request):
 def profile(request, id):
     author = get_object_or_404(User, id=id)
     items = Item.objects.filter(author=author)
+    reviews = Review.objects.filter(seller=author)
+
+    # Подсчет среднего рейтинга
+    total_rating = 0
+    for review in reviews:
+        total_rating += review.rating
+
+    if reviews.count() > 0:
+        average_rating = total_rating / reviews.count()
+        average_rating = round(average_rating, 1)
+    else:
+        average_rating = 0
+
+    seller_id = author.id
 
     context = {
         'author': author,
         'items': items,
+        'seller_id': seller_id,
+        'reviews': reviews,
+        'average_rating': average_rating,
     }
     return render(
         request,
@@ -119,6 +137,61 @@ def profile(request, id):
 def logout(request):
     auth.logout(request)
     return redirect(reverse('main:index'))
+
+
+@login_required
+def create_review(request, seller_id):
+    """ Представление создания отзыва"""
+    seller = get_object_or_404(User, id=seller_id)
+    reviews = Review.objects.filter(seller=seller).order_by('-created_at')
+
+    if request.user == seller:
+        return HttpResponse("Вы не можете оставить отзыв самому себе.")
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.seller = seller
+            review.author = request.user
+            review.save()
+            form = ReviewForm()
+    else:
+        form = ReviewForm()
+
+    context = {
+        'form': form,
+        'seller_id': seller_id,
+        'reviews': reviews
+    }
+
+    return render(
+        request,
+        template_name='users/review.html',
+        context=context
+    )
+
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    if request.user == review.author:
+        review.delete()
+    else:
+        raise Http404("У вас нет разрешения на удаление этого отзыва.")
+    return create_review(request, review.seller.id)
+
+
+@login_required
+def my_reviews(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    reviews = Review.objects.filter(seller=user).order_by('-created_at')
+
+    context = {
+        'user': user,
+        'reviews': reviews,
+    }
+    return render(request, 'users/my_reviews.html', context=context)
 
 
 class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
@@ -153,3 +226,4 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
         context = super().get_context_data(**kwargs)
         context['title'] = 'Установить новый пароль'
         return context
+

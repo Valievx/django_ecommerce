@@ -30,3 +30,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+
+class Review(models.Model):
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_as_seller')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews_as_author')
+    rating = models.IntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Отзыв от {self.author} о {self.seller}'
+

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -16,6 +17,16 @@ body {
     font-family: 'Fira Sans', sans-serif;
     color: #222;
     font-weight: 300;
+}
+
+:root {
+	--yellow: #FFBD13;
+	--blue: #4383FF;
+	--blue-d-1: #3278FF;
+	--light: #F5F5F5;
+	--grey: #AAA;
+	--white: #FFF;
+	--shadow: 8px 8px 30px rgba(0,0,0,.05);
 }
 
 p {
@@ -257,8 +268,13 @@ ul a:hover{
 }
 
 footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: #333;
     text-align: center;
-    margin-top: 100px;
+    padding: 10px 0;
 }
 
 /* Карточка товара */
@@ -883,3 +899,203 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
   flex-wrap: wrap;
 }
 
+.rating-reviews {
+    display: flex;
+    align-items: center;
+}
+
+.rating-reviews h3 {
+  font-size: 15px;
+  margin: 0px 10px 0px 5px;
+}
+
+.stars {
+    color: lightgray; /* Цвет пустых звезд */
+}
+
+.filled {
+    color: gold; /* Цвет заполненных звезд */
+}
+
+.rating-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #f1c40f;
+}
+
+
+/* review.html */
+
+.reviews-container {
+    margin: 55px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper {
+    background: #fff;
+    padding: 2rem;
+    max-width: 576px;
+    width: 100%;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.wrapper h5.card-header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 2rem;
+    color: #f1c40f;
+    margin-bottom: 2rem;
+}
+
+.rating .star {
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s;
+}
+
+.rating .star.active {
+    opacity: 0;
+    animation: animate 0.5s calc(var(--i) * 0.1s) ease-in-out forwards;
+}
+
+.star.selected,
+.star.hovered,
+.rating:hover .star:hover {
+    color: #f1c40f;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.rating .star:hover {
+    transform: scale(1.1);
+}
+
+textarea {
+    width: 100%;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    margin-bottom: 0.5rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.btn-group .btn {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.btn-group .btn.submit {
+    background: #3498db;
+    color: #fff;
+}
+
+.btn-group .btn.submit:hover {
+    background: #2980b9;
+}
+
+.btn-group .btn.cancel {
+    background: #fff;
+    color: #3498db;
+}
+
+.btn-group .btn.cancel:hover {
+    background: #f9f9f9;
+}
+
+.other-reviews {
+    max-width: 576px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.other-reviews ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.other-reviews ul li {
+    margin-bottom: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin: 20px 0px 5px 10px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.date {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+}
+
+.comment {
+  margin: 0px 0px 0px 10px;
+}
+
+.comment-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.comment-text{
+  font-size: 16px;
+}

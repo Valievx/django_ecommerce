@@ -63,4 +63,3 @@ def search_items(request):
         'catalog/search_results.html',
         context=context
     )
-

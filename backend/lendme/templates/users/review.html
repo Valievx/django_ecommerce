@@ -1,0 +1,64 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %} Отзыв о пользователе - LendMe {% endblock %}
+{% block content %}
+<div class="reviews-container">
+    <div class="wrapper">
+        <h5 class="card-header">Добавить комментарий:</h5>
+        <form method="post" action="{% url 'user:create_review' seller_id %}">
+            {% csrf_token %}
+            <input type="hidden" name="seller_id" value="{{ seller_id }}">
+            <div class="form-group mb-2">
+                <div class="rating">
+                    <input type="number" name="rating" hidden>
+                    <i class='bx bx-star star' style="--i: 0;"></i>
+                    <i class='bx bx-star star' style="--i: 1;"></i>
+                    <i class='bx bx-star star' style="--i: 2;"></i>
+                    <i class='bx bx-star star' style="--i: 3;"></i>
+                    <i class='bx bx-star star' style="--i: 4;"></i>
+                </div>
+                <textarea name="comment" cols="30" rows="5" placeholder="Ваш отзыв..." onfocus="this.placeholder=''" onblur="this.placeholder='Ваш отзыв...'"></textarea>
+            </div>
+            <div class="btn-group">
+                <button type="submit" id="submit-review-button" class="btn submit">Отправить</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="other-reviews">
+        <ul>
+            {% for review in reviews %}
+            <li>
+                <div class="review-info">
+                    <div class="user-info">
+                        {% if review.author.avatar %}
+                            <img src="{{ review.author.avatar.url }}" alt="User Avatar" class="avatar">
+                        {% else %}
+                            <img src="{% static 'avatar/avatar.jpg' %}" alt="Default Avatar" class="avatar">
+                        {% endif %}
+                        <div class="user-details">
+                            <span class="username">{{ review.author.get_full_name }}</span>
+                            <span class="date">{{ review.created_at|date:"j F" }}</span>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <span class="comment-title">Комментарий:</span><br>
+                        <span class="comment-text">{{ review.comment }}</span>
+                        {% if review.author == request.user %}
+                            <form action="{% url 'user:delete_review' review.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="Удалить отзыв">
+                            </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </li>
+            <hr>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

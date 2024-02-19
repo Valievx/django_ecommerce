@@ -27,6 +27,17 @@ urlpatterns = [
             template_name='users/password_change_done.html'),
         name='password_change_done'
     ),
-    path('password-reset/', views.UserForgotPasswordView.as_view(), name='password_reset'),
-    path('set-new-password/<uidb64>/<token>/', views.UserPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path(
+        'password-reset/',
+        views.UserForgotPasswordView.as_view(),
+        name='password_reset'
+    ),
+    path(
+        'set-new-password/<uidb64>/<token>/',
+        views.UserPasswordResetConfirmView.as_view(),
+        name='password_reset_confirm'
+    ),
+    path('create_review/<int:seller_id>/', views.create_review, name='create_review'),
+    path('delete_review/<int:review_id>/', views.delete_review, name='delete_review'),
+    path('reviews/<int:user_id>/', views.my_reviews, name='reviews'),
 ]

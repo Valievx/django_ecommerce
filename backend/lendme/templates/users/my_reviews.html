@@ -1,0 +1,34 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %} Отзывы о пользователе - {{ user.get_full_name }} {% endblock %}
+{% block content %}
+
+<div class="other-reviews">
+    <h3>Отзывы о пользователе: {{ user.get_full_name }}</h3>
+    <ul>
+        {% for review in reviews %}
+        <li>
+            <div class="review-info">
+                <div class="user-info">
+                    {% if review.author.avatar %}
+                        <img src="{{ review.author.avatar.url }}" alt="User Avatar" class="avatar">
+                    {% else %}
+                        <img src="{% static 'avatar/avatar.jpg' %}" alt="Default Avatar" class="avatar">
+                    {% endif %}
+                    <div class="user-details">
+                        <span class="username">{{ review.author.get_full_name }}</span>
+                        <span class="date">{{ review.created_at|date:"j F" }}</span>
+                    </div>
+                </div>
+                <div class="comment">
+                    <span class="comment-title">Комментарий:</span><br>
+                    <span class="comment-text">{{ review.comment }}</span>
+                </div>
+            </div>
+        </li>
+        <hr>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

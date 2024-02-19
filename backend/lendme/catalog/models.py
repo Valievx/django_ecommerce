@@ -92,7 +92,7 @@ class Item(models.Model):
 
     @property
     def price_with_symbol(self):
-        return f'{self.price} ₽/{self.time_period} {self.time_period_unit}'
+        return f'{self.price} ₽/{self.time_period}'
 
     def __str__(self):
         return self.name
