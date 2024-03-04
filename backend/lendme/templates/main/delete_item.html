@@ -6,14 +6,11 @@
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card glass">
-        <div class="card-header">
-          Удаление товара
-        </div>
         <div class="card-body">
-          <p>Вы уверены, что хотите удалить товар "{{ item.name }}"?</p>
+          <p style="font-weight: 600;">Вы уверены, что хотите удалить товар "{{ item.name }}"?</p>
           <form action="{% url 'main:delete_item' item.id %}" method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Удалить</button>
+            <button type="submit" class="btn-delete">Удалить</button>
           </form>
         </div>
       </div>

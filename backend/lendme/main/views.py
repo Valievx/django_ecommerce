@@ -41,23 +41,22 @@ def get_items(request):
 
 @login_required
 def additem(request):
-    image_form = ItemImageForm()
-
     if request.method == 'POST':
+        form = ItemForm(request.POST)
+        image_form = ItemImageForm(request.POST, request.FILES)
 
-        files = request.FILES.getlist('image')
-
-        form = ItemForm(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid() and image_form.is_valid():
             item = form.save(commit=False)
             item.author = request.user
             item.save()
 
-            for file in files:
+            for file in request.FILES.getlist('image'):
                 ItemImage.objects.create(item=item, image=file)
+
             return redirect('main:index')
     else:
         form = ItemForm()
+        image_form = ItemImageForm()
 
     context = {
         'form': form,
@@ -75,28 +74,43 @@ def additem(request):
 def edit_item(request, item_id):
     item = get_object_or_404(Item, id=item_id, author=request.user)
     item_images = ItemImage.objects.filter(item=item)
-
     previous_image_urls = [image.image.url for image in item_images]
 
     if request.method == 'POST':
         form = ItemForm(request.POST, instance=item)
         image_form = ItemImageForm(request.POST, request.FILES)
-        if form.is_valid() and image_form.is_valid():
+
+        # Удаление изображений
+        delete_image_ids = request.POST.getlist('delete_images')
+
+        if delete_image_ids:
+            # Удаление изображений по идентификаторам
+            ItemImage.objects.filter(id__in=delete_image_ids).delete()
+
+        if form.is_valid():
             form.save()
+
+        if image_form.is_valid():
             new_images = request.FILES.getlist('image')
             for image in new_images:
                 ItemImage.objects.create(item=item, image=image)
+        else:
+            if not item_images.exists():
+                image_form.add_error(None, "Необходимо загрузить хотя бы одно изображение.")
+
+        if form.is_valid() and image_form.is_valid():
             return redirect('main:index')
+
     else:
         form = ItemForm(instance=item)
-        image_form = ItemImageForm()
+        image_form = ItemImageForm(instance=item)
 
     context = {
         'form': form,
         'image_form': image_form,
         'item': item,
         'item_images': item_images,
-        'previous_image_urls': previous_image_urls,  # Добавляем список URL предыдущих изображений
+        'previous_image_urls': previous_image_urls,
         'categories': Category.objects.all()
     }
     return render(

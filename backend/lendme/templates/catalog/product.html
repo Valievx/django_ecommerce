@@ -40,8 +40,11 @@
 
                 {% if product.author == request.user %}
                 <div>
-                    <a href="{% url 'main:edit_item' product.id %}" class="btn btn-primary">Редактировать</a>
-                    <a href="{% url 'main:delete_item' product.id %}" class="btn btn-danger">Удалить</a>
+                    <a href="{% url 'main:edit_item' product.id %}">
+                        <button class="btn-edit" role="button">Редактировать</button>
+                    </a>
+                    <a href="{% url 'main:delete_item' product.id %}">
+                        <button class="btn-delete" role="button">Удалить</button></a>
                 </div>
                 {% endif %}
             </div>
@@ -82,3 +85,6 @@
     })
 </script>
 {% endblock %}
+
+
+
