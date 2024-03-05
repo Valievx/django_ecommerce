@@ -3,131 +3,157 @@
 {% block title %} {{ title }} {% endblock %}
 {% block content %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" />
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8 p-5">
-      <div class="card glass">
-        <div class="card-header">
-          Новое объявление
-        </div>
-        <div class="card-body">
-          <form action="{% url 'main:additem' %}" method="post" enctype="multipart/form-data" class="dragover" >
-          {% csrf_token %}
-            <!-- Категория -->
-            <div class="form-group">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0"/>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 p-5">
+        <div class="card glass">
+          <div class="card-header">
+            Новое объявление
+          </div>
+          <div class="card-body">
+            <form action="{% url 'main:additem' %}" method="post"
+                  enctype="multipart/form-data" class="dragover">
+              {% csrf_token %}
+              <!-- Категория -->
+              <div class="form-group">
                 <label for="id_category" class="form-label">Категория</label>
-                <select name="category" id="id_category" class="form-control" required>
-                    {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}
+                <select name="category" id="id_category"
+                        class="form-control" required>
+                  {% for category in categories %}
+                    <option
+                        value="{{ category.id }}">{{ category.name }}</option>
+                  {% endfor %}
                 </select>
                 {% if form.category.errors %}
-                <div style="color: red">{{ form.category.errors }}</div>
+                  <div style="color: red">{{ form.category.errors }}</div>
                 {% endif %}
-            </div>
+              </div>
 
-            <!-- Название -->
-            <div class="form-group">
-                <label for="id_name" class="form-label">Название объявления</label>
-                <input type="text" class="form-control" id="id_name"
+              <!-- Название -->
+              <div class="form-group">
+                <label for="id_name" class="form-label">Название
+                  объявления</label>
+                <input type="text" class="form-control"
+                       id="id_name"
                        name="name" required>
-                       {% if form.name.errors %}
-                       <div style="color:red">{{ form.name.errors }}</div>
-                       {% endif %}
-            </div>
+                {% if form.name.errors %}
+                  <div style="color:red">{{ form.name.errors }}</div>
+                {% endif %}
+              </div>
 
 
-            <!-- Описание -->
-            <div class="form-group">
-                <label for="id_description" class="form-label">Описание объявления</label>
-                <input type="text" class="form-control" id="id_description"
+              <!-- Описание -->
+              <div class="form-group">
+                <label for="id_description" class="form-label">Описание
+                  объявления</label>
+                <input type="text" class="form-control"
+                       id="id_description"
                        name="description" required>
-                       {% if form.description.errors %}
-                       <div style="color:red">{{ form.description.errors }}</div>
-                       {% endif %}
-            </div>
+                {% if form.description.errors %}
+                  <div style="color:red">{{ form.description.errors }}</div>
+                {% endif %}
+              </div>
 
-            <!-- Цена -->
-            <div class="form-group">
-                <label for="id_price" class="form-label">Цена</label>
-                <input type="text" class="form-control" id="id_price"
+              <!-- Цена -->
+              <div class="form-group">
+                <label for="id_price"
+                       class="form-label">Цена</label>
+                <input type="text" class="form-control"
+                       id="id_price"
                        name="price" required>
-                       {% if form.price.errors %}
-                       <div style="color:red">{{ form.price.errors }}</div>
-                       {% endif %}
-            </div>
+                {% if form.price.errors %}
+                  <div style="color:red">{{ form.price.errors }}</div>
+                {% endif %}
+              </div>
 
-            <!-- Период времени -->
-            <div class="form-group">
-                <label for="id_time_period" class="form-label">Период времени</label>
-                <select name="time_period" id="id_time_period" class="form-control" required>
-                    {% for choice in form.time_period.field.choices %}
-                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                    {% endfor %}
+              <!-- Период времени -->
+              <div class="form-group">
+                <label for="id_time_period" class="form-label">Период
+                  времени</label>
+                <select name="time_period" id="id_time_period"
+                        class="form-control" required>
+                  {% for choice in form.time_period.field.choices %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                  {% endfor %}
                 </select>
-                       {% if form.time_period.errors %}
-                       <div style="color:red">{{ form.time_period.errors }}</div>
-                       {% endif %}
-            </div>
+                {% if form.time_period.errors %}
+                  <div style="color:red">{{ form.time_period.errors }}</div>
+                {% endif %}
+              </div>
 
 
-            <!-- Изображение -->
-            <div class="file-dnd">
+              <!-- Изображение -->
+              <div class="file-dnd">
                 <label class="upload-image">Фотографии
-                    <br><span style="color: #958f8f; font-weight:600;">Не более 10</span>
+                  <br><span
+                      style="color: #958f8f; font-weight:600;">Не более 10</span>
                 </label>
                 {{ image_form.image }}
                 {% if form.errors %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true" style="font-size: 1em;">&times;</span>
-                        </button>
-                        {% if form.non_field_errors %}
-                            {% for error in form.non_field_errors %}
-                                {{ error }}
-                            {% endfor %}
+                  <div class="alert alert-danger alert-dismissible fade show"
+                       role="alert">
+                    <button type="button" class="close"
+                            data-dismiss="alert"
+                            aria-label="Close">
+                                            <span aria-hidden="true"
+                                                  style="font-size: 1em;">&times;</span>
+                    </button>
+                    {% if form.non_field_errors %}
+                      {% for error in form.non_field_errors %}
+                        {{ error }}
+                      {% endfor %}
+                    {% endif %}
+                    {% for field in form %}
+                      {% for error in field.errors %}
+                        {% if field.name == 'image' and field.errors %}
+                          Необходимо загрузить
+                          изображение.
                         {% endif %}
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                {% if field.name == 'image' and field.errors %}
-                                    Необходимо загрузить изображение.
-                                {% endif %}
-                                {% if error != 'Обязательное поле.' %}
-                                    {{ error }}
-                                {% endif %}
-                            {% endfor %}
-                        {% endfor %}
-                    </div>
+                        {% if error != 'Обязательное поле.' %}
+                          {{ error }}
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor %}
+                  </div>
                 {% endif %}
 
 
                 <div class="top">
                     <span class="inner">
                         <span class="select">
-                            <span class="material-symbols-outlined">add_circle</span>
+                            <span
+                                class="material-symbols-outlined">add_circle</span>
                         </span>
                     </span>
 
-                    <div class="image-preview-container">
-                        <div class="container-form">
-                            <!-- Список изображений будет здесь -->
-                        </div>
+                  <div class="image-preview-container">
+                    <div class="container-form">
+                      <!-- Список изображений будет здесь -->
                     </div>
+                  </div>
                 </div>
-            </div>
+              </div>
 
 
-          <div class="btn-save-wrapper">
-            <button type="submit" class="btn-save">Сохранить</button>
+              <div class="btn-save-wrapper">
+                <button type="submit" class="btn-save"
+                        id="save_btn">Сохранить
+                </button>
+              </div>
+
+            </form>
           </div>
-
-          </form>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  <script src="{% static 'js/add_item.js' %}"></script>
+
 {% endblock %}

@@ -848,8 +848,8 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .file-dnd .top {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  /*flex-wrap: wrap;*/
   width: 100%;
 }
 
@@ -899,6 +899,10 @@ form .select {
     height: 75px;
     object-fit: cover;
     border-radius: 5px;
+}
+
+.image-container {
+    margin-bottom: 8px;
 }
 
 .image-container img {

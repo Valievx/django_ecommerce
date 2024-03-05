@@ -1,13 +1,17 @@
 from pathlib import Path
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-42-!z_m8@!(r)^u=rkipuvk(dmm%i=9okx@+*ki--5(1%afrxl'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS: list[str] = ['*']
+ALLOWED_HOSTS: list[str] = os.getenv('ALLOWED_HOSTS').split(';')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -33,12 +37,12 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'worxvaliev@gmail.com'
-EMAIL_HOST_PASSWORD = 'ppmutatywfyxupqs'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 EMAIL_SERVER = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN = ['worxvaliev@gmail.com']
+EMAIL_ADMIN = os.getenv('EMAIL_ADMIN').split(';')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,15 +73,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'lendme.wsgi.application'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lendme',
-        'USER': 'lendme',
-        'PASSWORD': 'thepaik88',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': os.getenv('DB_NAME', 'lendme'),
+        'USER': os.getenv('DB_USER', 'lendme'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'thepaik88'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432')
     }
 }
 
