@@ -49,7 +49,6 @@ $(document).ready(function () {
 
         canSendRequest = false;
         setTimeout(function () {
-            // После задержки в 1 секунду, разрешаем отправку запроса
             canSendRequest = true;
         }, 100);
 

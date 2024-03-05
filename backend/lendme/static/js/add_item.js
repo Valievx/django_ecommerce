@@ -46,12 +46,10 @@ const showImages = () => {
 
 
 function submitItem(event) {
-    console.log(dataTransfer.items.length)
     if (dataTransfer.items.length < 1) {
         event.preventDefault();
         alert("Должно быть загружено хотя бы одно изображение");
     }
-
 }
 
 const submitBtn = document.querySelector('#save_btn');
