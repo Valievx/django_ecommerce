@@ -1,11 +1,10 @@
 let files = [],
 form = document.querySelector('form'),
 container = document.querySelector('.container-form'),
-text = document.querySelector('.inner'),
-browse = document.querySelector('.select'),
+upload = document.querySelector('.select'),
 input = document.querySelector('input[type="file"]');
 
-browse.addEventListener('click', () => input.click());
+upload.addEventListener('click', () => input.click());
 
 input.addEventListener('change', () => {
     let file = input.files;

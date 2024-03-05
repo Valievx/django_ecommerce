@@ -24,8 +24,8 @@ class ItemForm(forms.ModelForm):
 
 class ItemImageForm(forms.ModelForm):
     image = forms.ImageField(
-        widget=forms.FileInput(attrs={"multiple": True, "id": "upload-image"}),
-        required=True
+        widget=forms.FileInput(attrs={"multiple": True, "id": "upload-image", 'class': 'form-control'}),
+        required=False
     )
 
     class Meta:
