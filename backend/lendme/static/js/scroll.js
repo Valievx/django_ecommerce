@@ -1,14 +1,18 @@
-<script>
-  $(document).ready(function () {
-    var offset = 0;
+$(document).ready(function () {
+    let offset = 0;
+    let empty = false;
 
     function getItems() {
-      $.ajax({
-        url: '/get_items/',
-        data: { offset: offset },
-        success: function (data) {
-          data.forEach(function (item) {
-            var itemHtml = `
+        $.ajax({
+            url: '/get_items/',
+            data: {offset: offset},
+            success: function (data) {
+                if (data?.message === "empty") {
+                    empty = true;
+                    return;
+                }
+                data.forEach(function (item) {
+                    let itemHtml = `
                 <div class="product-card">
                   <div class="product-item">
                     <div class="product-img">
@@ -26,19 +30,33 @@
                   </div>
                 </div>
             `;
-            $('.items-list').append(itemHtml);
-          });
-          offset += 30;
-        },
-      });
+                    $('.items-list').append(itemHtml);
+                });
+                offset += 30
+            },
+        });
     }
 
+    let canSendRequest = true;
     $(window).scroll(function () {
-      if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-        getItems();
-      }
+        if (empty) {
+            return;
+        }
+
+        if (!canSendRequest) {
+            return;
+        }
+
+        canSendRequest = false;
+        setTimeout(function () {
+            // После задержки в 1 секунду, разрешаем отправку запроса
+            canSendRequest = true;
+        }, 100);
+
+        if (window.innerHeight + window.scrollY + 250 >= document.body.offsetHeight) {
+            getItems();
+        }
     });
 
     getItems();
-  });
-</script>
+});
