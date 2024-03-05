@@ -12,6 +12,17 @@ $(document).ready(function () {
                     return;
                 }
                 data.forEach(function (item) {
+                    let date = new Date(item.pub_date);
+                    let today = new Date();
+                    let itemDate;
+                    if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+                        itemDate = 'Сегодня ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+                    } else if (date.getDate() === today.getDate() - 1 && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+                        itemDate = 'Вчера ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+                    } else {
+                        itemDate = date.toLocaleDateString() + ' ' + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+                    }
+
                     let itemHtml = `
                 <div class="product-card">
                   <div class="product-item">
@@ -24,8 +35,8 @@ $(document).ready(function () {
                       <a class="product-name" href="catalog/product/${item.slug}">
                         <h3>${item.name}</h3>
                       </a>
-                      <p class="price">${item.price}₽/${item.time_period} ${item.time_period_unit}</p>
-                      <p class="data">${item.pub_date}</p>
+                      <p class="price">${item.price}₽/${item.time_period}</p>
+                      <p class="data">${itemDate}</p>
                     </div>
                   </div>
                 </div>
