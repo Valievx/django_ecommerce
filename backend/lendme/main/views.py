@@ -21,11 +21,17 @@ def index(request):
 
 def get_items(request):
     offset = int(request.GET.get('offset', 0))
+
+    if offset > Item.objects.count():
+        return JsonResponse({
+            'message': 'empty'
+        })
+
     items = Item.objects.all()[offset: offset + 30]
     data = []
 
     for item in items:
-        photos = ItemImage.objects.filter(item=item)
+        photos = ItemImage.objects.filter(item=item.id)
         if photos.exists():
             data.append({
                 'name': item.name,
@@ -44,7 +50,6 @@ def additem(request):
     if request.method == 'POST':
         form = ItemForm(request.POST)
         image_form = ItemImageForm(request.POST, request.FILES)
-
         if form.is_valid() and image_form.is_valid():
             item = form.save(commit=False)
             item.author = request.user
@@ -82,10 +87,7 @@ def edit_item(request, item_id):
 
         # Удаление изображений
         delete_image_ids = request.POST.getlist('delete_images')
-
-        if delete_image_ids:
-            # Удаление изображений по идентификаторам
-            ItemImage.objects.filter(id__in=delete_image_ids).delete()
+        ItemImage.objects.filter(id__in=delete_image_ids).delete()
 
         if form.is_valid():
             form.save()
@@ -96,10 +98,10 @@ def edit_item(request, item_id):
                 ItemImage.objects.create(item=item, image=image)
         else:
             if not item_images.exists():
-                image_form.add_error(None, "Необходимо загрузить хотя бы одно изображение.")
+                image_form.add_error(None, "Необходимо загрузить изображение.")
 
         if form.is_valid() and image_form.is_valid():
-            return redirect('main:index')
+            return redirect('catalog:product', product_slug=item.slug)
 
     else:
         form = ItemForm(instance=item)
@@ -126,7 +128,7 @@ def delete_item(request, item_id):
 
     if request.method == 'POST':
         item.delete()
-        return redirect('main:index')
+        return redirect('user:profile', id=request.user.id)
 
     context = {
         'item': item

@@ -848,8 +848,8 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .file-dnd .top {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  /*flex-wrap: wrap;*/
   width: 100%;
 }
 
@@ -887,7 +887,7 @@ form .select {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   position: relative;
-  margin-right: 7px;
+  margin: 0px 10px 10px 0px;
 }
 
 .container-form .image:nth-child(4n) {
@@ -899,6 +899,10 @@ form .select {
     height: 75px;
     object-fit: cover;
     border-radius: 5px;
+}
+
+.image-container {
+    margin-bottom: 8px;
 }
 
 .image-container img {
