@@ -22,15 +22,15 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = (
             'email',
-            'first_name',
-            'last_name',
+            'phone_number',
+            'name',
             'password1',
             'password2',
         )
 
     email = forms.CharField()
-    first_name = forms.CharField()
-    last_name = forms.CharField()
+    phone_number = forms.CharField()
+    name = forms.CharField()
     password1 = forms.CharField()
     password2 = forms.CharField()
 
@@ -41,15 +41,15 @@ class ProfileForm(UserChangeForm):
         model = User
         fields = (
             'avatar',
-            'first_name',
-            'last_name',
+            'name',
             'email',
+            'phone_number'
         )
 
     avatar = forms.ImageField(required=False)
-    first_name = forms.CharField()
-    last_name = forms.CharField()
+    name = forms.CharField()
     email = forms.CharField()
+    phone_number = forms.CharField()
 
 
 class UserForgotPasswordForm(PasswordResetForm):

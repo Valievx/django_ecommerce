@@ -8,8 +8,9 @@ from .managers import UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     """ Кастомная модель юзера """
     email = models.EmailField(verbose_name='email address', max_length=200,  unique=True)
-    first_name = models.CharField(verbose_name='first name', max_length=30, blank=True)
-    last_name = models.CharField(verbose_name='last name', max_length=30, blank=True)
+    phone_number = models.CharField(verbose_name='phone', max_length=12, unique=True)
+    is_phone_verified = models.BooleanField(default=False)
+    name = models.CharField(verbose_name='name', max_length=30, blank=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     is_active = models.BooleanField(verbose_name='active', default=True)
     is_staff = models.BooleanField(verbose_name='staff', default=False)
@@ -18,18 +19,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['name', 'phone_number']
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-
-    def get_full_name(self):
-        full_name = '%s %s' % (self.first_name, self.last_name)
-        return full_name.strip()
-
-    def get_short_name(self):
-        return self.first_name
 
 
 class Review(models.Model):

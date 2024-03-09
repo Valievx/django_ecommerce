@@ -28,7 +28,7 @@
           <a class="header-link" href="{% url 'user:profile_edit' %}">
             <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}"
                  class="avatar" alt="avatar"/>
-            {{ user.first_name }}
+            {{ user.name }}
           </a>
           <div class="dropdown-content">
             <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мои объявления</a>

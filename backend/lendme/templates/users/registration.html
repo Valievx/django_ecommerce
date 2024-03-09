@@ -27,66 +27,70 @@
             </a>
           </div>
 
+
           <div class="form-element">
-              <label for="id_email" class="form-label"></label>
+              <label for="id_name" class="form-label">Имя пользователя*</label>
+              <input type="text" name="name"
+                     value="{% if form.name.value %}{{ form.name.value }}{% endif %}"
+                     id="id_name" placeholder="Введите имя" required>
+                     {% if form.name.errors %}
+                     <div style="color:red">{{ form.name.errors }}</div>
+                     {% endif %}
+          </div>
+
+          <div class="form-element">
+              <label for="id_phone_number" class="form-label">Номер телефона:</label>
+              <input type="text" name="phone_number"
+                     value="+7{% if form.phone_number.value %}{{ form.phone_number.value }}{% endif %}"
+                     id="id_phone_number" placeholder="Номер телефона" required>
+                     {% if form.phone_number.errors %}
+                     <div style="color:red">{{ form.phone_number.errors }}</div>
+                     {% endif %}
+          </div>
+
+          <div class="form-element">
+              <label for="id_email" class="form-label">E-mail*</label>
               <input type="email" name="email"
                      value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
-                     id="id_email" placeholder="Телефон или почта" required>
+                     id="id_email" placeholder="Введите адрес электронной почты" required>
                      {% if form.email.errors %}
                      <div style="color:red">{{ form.email.errors }}</div>
                      {% endif %}
           </div>
 
           <div class="form-element">
-              <label for="id_first_name" class="form-label"></label>
-              <input type="text" name="first_name"
-                     value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
-                     id="id_first_name" placeholder="Введите ваше имя" required>
-                     {% if form.first_name.errors %}
-                     <div style="color:red">{{ form.first_name.errors }}</div>
-                     {% endif %}
-          </div>
-
-          <div class="form-element">
-              <label for="id_last_name" class="form-label"></label>
-              <input type="text" name="last_name"
-                     value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
-                     id="id_last_name" placeholder="Введите вашу фамилию" required>
-                     {% if form.last_name.errors %}
-                     <div style="color:red">{{ form.last_name.errors }}</div>
-                     {% endif %}
-          </div>
-
-          <div class="form-element">
-              <label for="id_password1" class="form-label"></label>
+              <label for="id_password1" class="form-label">Пароль*</label>
               <input type="password" name="password1"
                      value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}"
-                     id="id_password1" placeholder="Введите ваш пароль" required>
+                     id="id_password1" placeholder="Введите пароль" required>
                      {% if form.password1.errors %}
                      <div style="color:red">{{ form.password1.errors }}</div>
                      {% endif %}
               <span class="show-password-icon">
                 <svg height="12" width="12" viewBox="0 0 24 24">
-                    <path d="M10 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0m2 5a5 5 0 1 1 0-10 5 5 0 0 1 0 10m0-13.5A12.7 12.7 0 0 0 0 12a12.73 12.73 0 0 0 24 0 12.7 12.7 0 0 0-12-8.5"></path>
+                    <path d="M10 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0m2 5a5 5 0 1 1 0-10 5 5 0 0 1 0
+                    10m0-13.5A12.7 12.7 0 0 0 0 12a12.73 12.73 0 0 0 24 0 12.7 12.7 0 0 0-12-8.5">
+                    </path>
                 </svg>
               </span>
           </div>
 
           <div class="form-element">
-            <label for="id_password2" class="form-label"></label>
+            <label for="id_password2" class="form-label">Подтверждение пароля*</label>
             <input type="password" name="password2"
                    value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}"
-                   id="id_password2" placeholder="Подтвердите пароль" required>
+                   id="id_password2" placeholder="Повторите пароля" required>
                    {% if form.password2.errors %}
                    <div style="color:red">{{ form.password2.errors }}</div>
                    {% endif %}
             <span class="show-password-icon">
               <svg height="12" width="12" viewBox="0 0 24 24">
-                  <path d="M10 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0m2 5a5 5 0 1 1 0-10 5 5 0 0 1 0 10m0-13.5A12.7 12.7 0 0 0 0 12a12.73 12.73 0 0 0 24 0 12.7 12.7 0 0 0-12-8.5"></path>
+                  <path d="M10 12a2 2 0 1 0 4 0 2 2 0 0 0-4 0m2 5a5 5 0 1 1 0-10 5 5 0 0 1 0
+                  10m0-13.5A12.7 12.7 0 0 0 0 12a12.73 12.73 0 0 0 24 0 12.7 12.7 0 0 0-12-8.5">
+                  </path>
               </svg>
             </span>
           </div>
-
 
 
           <div class="form-element">
