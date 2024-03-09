@@ -1,39 +1,48 @@
 {% load static %}
 
-<div class="layout">
-  <div class="content">
-    <div>
-      <a href="{% url 'main:index' %}" class="logo">LendMe</a>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+  <div class="layout">
+    <div class="content">
+      <div>
+        <a href="{% url 'main:index' %}" class="logo">LendMe</a>
+      </div>
+      <div class="search_line">
+        <form class="search" role="search" action="{% url 'catalog:search' %}" method="get">
+          <input type="search" name="q" class="searchTerm" placeholder="Поиск по объявлениям">
+        </form>
+      </div>
+
+
+      <ul class="menu">
+        {% if request.user.is_authenticated %}
+        <li>
+          <a class="header-link" href="{% url 'main:favorites' %}">
+            <span class="material-symbols-outlined">favorite</span>
+          </a>
+        </li>
+        <li><a class="header-link" href="{% url 'user:profile_edit' %}">Мои объявления</a></li>
+        <li class="dropdown">
+          <a class="header-link" href="{% url 'user:profile_edit' %}">
+            <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}"
+                 class="avatar" alt="avatar"/>
+            {{ user.first_name }}
+          </a>
+          <div class="dropdown-content">
+            <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мои объявления</a>
+            <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мой профиль</a>
+            <a class="dropdown-content-link" href="{% url 'user:logout' %}">Выйти</a>
+          </div>
+        </li>
+
+        <li><a href="{% url 'main:additem' %}" class="create-item-btn">Разместить объявление</a></li>
+        {% else %}
+        <li><a href="{% url 'user:login' %}" class="nav_item">Вход и регистрация</a></li>
+        <li><a href="{% url 'main:additem' %}" class="create-item-btn">Разместить объявление</a></li>
+        {% endif %}
+      </ul>
     </div>
-    <div class="search_line">
-      <form class="search" role="search" action="{% url 'catalog:search' %}" method="get">
-        <input type="search" name="q" class="searchTerm" placeholder="Поиск по объявлениям">
-      </form>
-    </div>
-
-
-    <ul class="menu">
-      {% if request.user.is_authenticated %}
-      <li><a class="header-link" href="{% url 'user:profile_edit' %}">Мои объявления</a></li>
-      <li class="dropdown">
-        <a class="header-link" href="{% url 'user:profile_edit' %}">
-          <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}"
-               class="avatar" alt="avatar"/>
-          {{ user.first_name }}
-        </a>
-        <div class="dropdown-content">
-          <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мои объявления</a>
-          <a class="dropdown-content-link" href="{% url 'user:profile_edit' %}">Мой профиль</a>
-          <a class="dropdown-content-link" href="{% url 'user:logout' %}">Выйти</a>
-        </div>
-      </li>
-
-      <li><a href="{% url 'main:additem' %}" class="create-item-btn">Разместить объявление</a></li>
-      {% else %}
-      <li><a href="{% url 'user:login' %}" class="nav_item">Вход и регистрация</a></li>
-      <li><a href="{% url 'main:additem' %}" class="create-item-btn">Разместить объявление</a></li>
-      {% endif %}
-    </ul>
   </div>
-</div>
 

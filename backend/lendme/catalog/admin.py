@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Category, Item, ItemImage
+from catalog.models import Category, Item, ItemImage, Favorite
 
 
 class ItemImageAdmin(admin.StackedInline):
@@ -24,3 +24,9 @@ class ItemAdmin(admin.ModelAdmin):
 @admin.register(ItemImage)
 class ItemImage(admin.ModelAdmin):
     pass
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    model = Favorite
+    list_display = ('id', 'item', 'user')

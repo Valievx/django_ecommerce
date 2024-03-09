@@ -4,88 +4,116 @@
 {% block content %}
 
 
-
 <div class="container">
-    <div class="profile">
-        <div class="profile-left">
-            <div class="avatar-profile">
-                <img src="{% if author.avatar %}{{ author.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}" />
-            </div>
-            <h3>{{ author.get_full_name }}</h3>
-                <div class="rating-reviews">
-
-                    <div class="rating-profile">
-                        {% for i in "xxxxx" %}
-                            {% if forloop.counter <= average_rating %}
-                                <i class="material-icons filled" style="font-size: 18px;">star</i>
-                            {% else %}
-                                <i class="material-icons stars" style="font-size: 18px;">star</i>
-                            {% endif %}
-                        {% endfor %}
-                        <h3>{{ average_rating }}</h3>
-                    </div>
-
-                    {% if user == author %}
-                        {% if reviews.count == 0 %}
-                            <h3>У Вас пока нет отзывов</h3>
-                        {% elif reviews.count == 1 %}
-                            <a href="{% url 'user:reviews' user_id=request.user.id %}" class="product-name">
-                                <h3>{{ reviews.count }} отзыв</h3>
-                            </a>
-                        {% elif reviews.count >= 2 and reviews.count <= 4 %}
-                            <a href="{% url 'user:reviews' user_id=request.user.id %}" class="product-name">
-                                <h3>{{ reviews.count }} отзыва</h3>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'user:reviews' user_id=request.user.id %}" class="product-name">
-                                <h3>{{ reviews.count }} отзывов</h3>
-                            </a>
-                        {% endif %}
-                    {% else %}
-                        {% if reviews.count == 0 %}
-                            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
-                                <h3>Оставить первый отзыв</h3>
-                            </a>
-                        {% elif reviews.count == 1 %}
-                            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
-                                <h3>{{ reviews.count }} отзыв</h3>
-                            </a>
-                        {% elif reviews.count >= 2 and reviews.count <= 4 %}
-                            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
-                                <h3>{{ reviews.count }} отзыва</h3>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
-                                <h3>{{ reviews.count }} отзывов</h3>
-                            </a>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            <p>На LendMe с {{ author.date_joined }}</p>
+  <div class="profile">
+    <div class="profile-left">
+      <div class="avatar-profile">
+        <img src="{% if author.avatar %}{{ author.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}" />
+      </div>
+      <h3>{{ author.get_full_name }}</h3>
+      <div class="rating-reviews">
+        <div class="rating-profile">
+          {% for i in "xxxxx" %}
+            {% if forloop.counter <= average_rating %}
+              <i class="material-icons filled" style="font-size: 18px;">star</i>
+            {% else %}
+              <i class="material-icons stars" style="font-size: 18px;">star</i>
+            {% endif %}
+          {% endfor %}
+            <h3>{{ average_rating }}</h3>
         </div>
 
-        <div class="profile-right">
-            <h3>Объявления пользователя</h3>
-            <div class="item-cards">
-                {% for item in items %}
-                    <div class="product-item">
-                        <div class="product-img">
-                            <a href="/catalog/product/{{ item.slug }}/">
-                                <img src="{{ item.itemimage_set.first.image.url }}" alt="{{ item.name }}">
-                            </a>
-                            <div class="product-list">
-                                <a class="product-name" href="/catalog/product/{{ item.slug }}/">
-                                    <h3>{{ item.name }}</h3>
-                                </a>
-                                <p class="price">{{ item.price }}₽/{{ item.time_period }}</p>
-                                <p class="data">{{ item.pub_date }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+        {% if user == author %}
+          {% if reviews.count == 0 %}
+            <h3>У Вас пока нет отзывов</h3>
+          {% elif reviews.count == 1 %}
+            <a href="{% url 'user:reviews' user_id=request.user.id %}" class="product-name">
+              <h3>{{ reviews.count }} отзыв</h3>
+            </a>
+          {% elif reviews.count >= 2 and reviews.count <= 4 %}
+            <a href="{% url 'user:reviews' user_id=request.user.id %}" class="product-name">
+              <h3>{{ reviews.count }} отзыва</h3>
+            </a>
+          {% else %}
+            <a href="{% url 'user:reviews' user_id=request.user.id %}" class="product-name">
+              <h3>{{ reviews.count }} отзывов</h3>
+            </a>
+          {% endif %}
+        {% else %}
+          {% if reviews.count == 0 %}
+            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
+              <h3>Оставить первый отзыв</h3>
+            </a>
+          {% elif reviews.count == 1 %}
+            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
+              <h3>{{ reviews.count }} отзыв</h3>
+            </a>
+          {% elif reviews.count >= 2 and reviews.count <= 4 %}
+            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
+              <h3>{{ reviews.count }} отзыва</h3>
+            </a>
+          {% else %}
+            <a href="{% url 'user:create_review' seller_id %}" class="product-name">
+              <h3>{{ reviews.count }} отзывов</h3>
+            </a>
+          {% endif %}
+        {% endif %}
+      </div>
+      <p>На LendMe с {{ author.date_joined }}</p>
     </div>
 
+
+    <div class="profile-right">
+      <h3>Объявления пользователя</h3>
+        <div class="item-cards">
+          {% for item in items %}
+            <div class="product-item">
+              <div class="product-img">
+                <a href="/catalog/product/{{ item.slug }}/">
+                  <img src="{{ item.itemimage_set.first.image.url }}" alt="{{ item.name }}">
+                </a>
+                <div class="product-list">
+                  <a class="product-name" href="/catalog/product/{{ item.slug }}/">
+                    <h3>{{ item.name }}</h3>
+                  </a>
+                  {% if item.id in favorite_item_id %}
+                    <button class="add-to-favorite active"
+                            data-product-item="{{ item.id }}">
+                      <i class="heart-icon">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                             viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0
+                          0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                          </path>
+                        </svg>
+                      </i>
+                    </button>
+                  {% else %}
+                    <button class="add-to-favorite"
+                            data-product-item="{{ item.id }}">
+                      <i class="heart-icon">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                             viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                             stroke-linejoin="round">
+                          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0
+                          0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                          </path>
+                        </svg>
+                      </i>
+                    </button>
+                  {% endif %}
+                </div>
+                <div class="product-data">
+                  <p class="price">{{ item.price }}₽/{{ item.time_period }}</p>
+                  <p class="data">{{ item.pub_date }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+  </div>
 </div>
+
 {% endblock %}

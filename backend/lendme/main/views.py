@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-from catalog.models import Category, Item, ItemImage
+from catalog.models import Category, Item, ItemImage, Favorite
 from catalog.forms import ItemForm, ItemImageForm
 
 
@@ -34,6 +34,7 @@ def get_items(request):
         photos = ItemImage.objects.filter(item=item.id)
         if photos.exists():
             data.append({
+                'id': item.id,
                 'name': item.name,
                 'price': item.price,
                 'time_period': item.time_period,
@@ -138,3 +139,39 @@ def delete_item(request, item_id):
         template_name='main/delete_item.html',
         context=context
     )
+
+
+def favorites(request):
+    favorite = Favorite.objects.select_related('item').filter(user=request.user).order_by('-id')
+    items = Item.objects.all()
+
+    context = {
+        'favorite': favorite,
+        'items': items
+    }
+
+    return render(
+        request,
+        template_name='main/favorite.html',
+        context=context
+    )
+
+
+@login_required
+def add_to_favorite(request):
+    item_id = request.GET['id']
+    item = Item.objects.get(id=item_id)
+    user = request.user
+
+    favorite_count = Favorite.objects.filter(item=item, user=user).count()
+
+    # Adding to favorite
+    if favorite_count > 0:
+        Favorite.objects.filter(item=item, user=user).delete()
+        is_added = False
+    # Remove from favorite
+    else:
+        Favorite.objects.create(item=item, user=user)
+        is_added = True
+
+    return JsonResponse({'added': is_added})

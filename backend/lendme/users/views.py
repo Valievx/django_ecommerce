@@ -7,7 +7,7 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmVie
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import Http404
 
-from catalog.models import Item, ItemImage
+from catalog.models import Item, ItemImage, Favorite
 from .models import User, Review
 from .forms import (UserLoginForm, UserRegistrationForm,
                     ProfileForm, UserForgotPasswordForm,
@@ -119,12 +119,19 @@ def profile(request, id):
 
     seller_id = author.id
 
+    # Получаем все товары, добавленные в избранное пользователем
+    favorite_items = Favorite.objects.filter(user=request.user)
+
+    # Создаем множество из id товаров, добавленных в избранное пользователем
+    favorite_item_id = set(favorite_item.item.id for favorite_item in favorite_items)
+
     context = {
         'author': author,
         'items': items,
         'seller_id': seller_id,
         'reviews': reviews,
         'average_rating': average_rating,
+        'favorite_item_id': favorite_item_id,
     }
     return render(
         request,

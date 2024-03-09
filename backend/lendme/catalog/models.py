@@ -121,3 +121,36 @@ class ItemImage(models.Model):
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
+
+
+class Favorite(models.Model):
+    """ Модель Избранного"""
+    item = models.ForeignKey(
+        Item,
+        related_name='favorite',
+        verbose_name='Товар',
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        User,
+        related_name='favorite',
+        verbose_name='Пользователь',
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранные'
+
+        constraints = (
+            models.UniqueConstraint(
+                fields=(
+                    'item',
+                    'user',
+                ),
+                name='unique_favorite',
+            ),
+        )
+
+    def __str__(self):
+        return f'{self.item.name}'

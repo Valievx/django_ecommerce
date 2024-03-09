@@ -10,4 +10,6 @@ urlpatterns = [
     path('additem/', views.additem, name='additem'),
     path('edititem/<int:item_id>/', views.edit_item, name='edit_item'),
     path('deleteitem/<int:item_id>/', views.delete_item, name='delete_item'),
+    path('favorites/', views.favorites, name='favorites'),
+    path('add-to-favorite/', views.add_to_favorite, name='add-to-favorite'),
 ]

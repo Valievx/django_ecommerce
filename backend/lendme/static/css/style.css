@@ -96,6 +96,10 @@ a {
   margin: 15px 0;
 }
 
+.header-link span:hover{
+  color: #ff0e0e;
+}
+
 .search_line{
     position: static;
     flex-grow: 1;
@@ -123,11 +127,13 @@ header ul.menu a{
 
 header ul.menu {
     float: right;
-    margin: 0 0 0 0;
+    display: flex;
+    align-items: center;
 }
 
 header ul.menu li {
-    display: inline;
+    display: inline-block;
+    vertical-align: middle;
     margin-left: 20px;
     cursor: pointer;
     transition: color 500ms ease;
@@ -182,12 +188,27 @@ header ul.menu li {
 
 
 .dropdown {
-  padding: 0px 0px 25px 0px;
-  position: relative;
-  z-index: 1002;
-  min-width: 260px;
-  max-height: calc(100dvh - 44px);
-  overflow-y: auto;
+    position: relative;
+    z-index: 1002;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #333;
+    font-size: 12px;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
 }
 
 
@@ -284,7 +305,7 @@ footer {
 
 .product-item {
    width: 228px;
-   height: 240px;
+   height: 260px;
    margin: 10px 4px 0 0;
    padding: 10px 10px 5px 10px;
    border: 1px solid #eee;
@@ -309,13 +330,55 @@ footer {
 }
 
 .product-list {
-   margin-top: 5px;
+   display: flex;
+   justify-content: space-between;
+}
+
+.product-list button {
+  position: relative;
+  cursor: pointer;
+}
+
+.product-list button:active {
+  font-size: 24px;
+}
+
+.add-to-favorite {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.add-to-favorite.active svg {
+  stroke: none;
+  fill: #ff1414;
+}
+
+.add-to-favorite button:focus {
+  outline: none;
+}
+
+.add-to-favorite svg:hover {
+  width: 20px;
+  height: 20px;
+  stroke: #ff1414;
+  transition: transform .3s cubic-bezier(.5, 0, .5, 3);
 }
 
 .product-name {
    text-decoration: none;
    color: #3ba2fb;
-   font-size: 12px;
+}
+
+.product-name h3 {
+  max-width: 170px;
+  font-size: 15px;
+}
+
+.product-data{
+  margin: -15px 0px 0px 0px;
 }
 
 .price {
@@ -698,6 +761,15 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
   text-decoration: none;
 }
 
+.info button i {
+  font-size: 15px;
+}
+
+.info button i:hover{
+  font-size: 18px;
+  color: #f30c0c;
+}
+
 #slide-wrapper{
   max-width: 500px;
   display: flex;
@@ -706,39 +778,39 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .arrow{
-	width: 30px;
-	height: 30px;
-	cursor: pointer;
-	transition: .3s;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: .3s;
 }
 
 .arrow:hover{
-	opacity: .5;
-	width: 35px;
-	height: 35px;
+  opacity: .5;
+  width: 35px;
+  height: 35px;
 }
 
 #slider{
-	width: 100%;
-	display: flex;
-	flex-wrap: nowrap;
-	overflow-x: hidden;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: hidden;
 }
 
 #slider::-webkit-scrollbar {
-		width: 8px;
+  width: 8px;
 
 }
 
 #slider::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 
 }
 
 #slider::-webkit-scrollbar-thumb {
   background-color: #dede2e;
   outline: 1px solid slategrey;
-   border-radius: 100px;
+  border-radius: 100px;
 
 }
 
