@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %} LendMe - Чат {% endblock %}
+{% block content %}
+{% load i18n tz %}
+{% load custom_tags %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      {% if chats.count == 0 %}
+        <div>{% trans "Нет ни одного начатого диалога" %}</div>
+      {% endif %}
+      <div class="chat_container">
+        <div class="job-box">
+          <div class="inbox-message">
+            <ul>
+              {% for chat in chats %}
+                {% if chat.message_set.count != 0 %}
+                  {% with last_message=chat.message_set.last %}
+                    {% get_companion user chat as companion %}
+                    <li>
+                      <a href="{% url 'chat:messages' chat_id=chat.id %}">
+                        <div class="message-avatar">
+                          <img class="avatar-messages"
+                               src="{% if companion.avatar %}
+                                      {{ companion.avatar.url }}
+                                    {% else %}
+                                      {% static 'avatar/avatar.jpg' %}
+                                    {% endif %}"/>
+                        </div>
+                        <div class="message-body">
+                          <div class="message-body-heading">
+                              <h5>{{ companion.name }}</h5>
+                              <span>{{ last_message.pub_date|utc }}</span>
+                          </div>
+                          <p>{{ last_message.message|truncatechars_html:"200"|safe|striptags }}</p>
+                        </div>
+                      </a>
+                    </li>
+                  {% endwith %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

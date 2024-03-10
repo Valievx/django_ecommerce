@@ -12,3 +12,16 @@ $('.carousel-1').owlCarousel({
         1600:{items:5}
     }
 });
+
+
+function showPhoneNumber() {
+    var button = document.getElementById('showPhoneNumberButton');
+    var phoneNumber = document.getElementById('phoneNumber');
+
+    // Изменяем текст кнопки на номер телефона
+    button.innerHTML = phoneNumber.innerHTML;
+
+    // Показываем номер телефона и скрываем кнопку
+    phoneNumber.style.display = 'block';
+    button.style.display = 'none';
+}

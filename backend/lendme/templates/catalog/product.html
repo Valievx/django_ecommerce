@@ -36,7 +36,6 @@
             <img src="{% if product.author.avatar %}{{ product.author.avatar.url }}{% else %}{% static 'avatar/avatar.jpg' %}{% endif %}" />
           </a>
         </p>
-        <p>Номер для связи: {{ product.author.phone_number }}</p>
         {% if product.author != request.user %}
         <div class="product-list">
           <button style="outline: none;"
@@ -52,6 +51,12 @@
               </svg>
             </i>
           </button>
+        </div>
+        <div class="connection-btn">
+          <button class="messenger-button" id="showPhoneNumberButton" onclick="showPhoneNumber()">Показать номер телефона</button>
+            <div class="messenger-button" id="phoneNumber" style="display: none;">{{ product.author.phone_number }}</div>
+          <button class="messenger-button">
+              <a href="{% url 'chat:create_dialog' product.author.id %}">Написать сообщение</a></button>
         </div>
         {% endif %}
         {% if product.author == request.user %}
@@ -72,6 +77,3 @@
 
 <script src="{% static 'js/product.js' %}"></script>
 {% endblock %}
-
-
-

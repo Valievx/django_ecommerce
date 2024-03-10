@@ -26,7 +26,10 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
+    'core.apps.CoreConfig',
+    'chat.apps.ChatConfig',
     'rest_framework',
+    'debug_toolbar',
 ]
 
 SITE_ID = 1
@@ -52,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'lendme.urls'

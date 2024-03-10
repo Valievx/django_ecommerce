@@ -31,7 +31,7 @@ body {
 
 p {
 	font-size: 14px;
-	font-weight: 100;
+	font-weight: 600;
 	line-height: 20px;
 	letter-spacing: 0.5px;
 	margin: 2px 0 30px;
@@ -96,9 +96,25 @@ a {
   margin: 15px 0;
 }
 
-.header-link span:hover{
+.header-link span {
+  display: flex;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+}
+
+.header-link span:hover {
   color: #ff0e0e;
 }
+
+.messenger-button a {
+  color: #fff;
+}
+
+.messenger-button a:hover {
+  color: #fff;
+}
+
 
 .search_line{
     position: static;
@@ -565,6 +581,13 @@ footer {
   cursor: pointer;
 }
 
+.show-password-icon-reg {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  cursor: pointer;
+}
+
 
 /* Профиль */
 
@@ -904,6 +927,11 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
   }
 }
 
+.connection-btn {
+  display: flex;
+  align-items: center;
+}
+
 /* additem.html */
 
 .file-dnd {
@@ -1207,12 +1235,22 @@ form .select {
 textarea {
     width: 100%;
     background: #f9f9f9;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
     outline: none;
     resize: none;
-    margin-bottom: 0.5rem;
+    height: 30px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    vertical-align: middle;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 9px 16px;
+    border-radius: 6px;
+    min-height: 40px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
 }
 
 .btn-group {
@@ -1304,4 +1342,335 @@ textarea {
 
 .comment-text{
   font-size: 16px;
+}
+
+/* CHAT */
+
+.container-chat {
+  width: 720px;
+
+  height: calc(100vh - 80px); /* 100% высоты видимой области страницы минус высота отступа сверху */
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+
+
+li {
+  list-style-type: none;
+}
+
+.messenger-button {
+    margin: 15px 20px 0px 0px; /* Добавляем немного отступа между кнопками */
+    width: 220px;
+    padding: 8px;
+    border-radius: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    min-height: 45px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Messages Board */
+
+.job-box-filter label {
+    width: 100%;
+}
+.job-box-filter select.input-sm {
+    display: inline-block;
+    max-width: 120px;
+    margin: 0 5px;
+    border: 1px solid #e8eef1;
+    border-radius: 2px;
+    height: 34px;
+    font-size: 15px;
+}
+.job-box-filter label input.form-control {
+    max-width: 200px;
+    display: inline-block;
+    border: 1px solid #e8eef1;
+    border-radius: 2px;
+    height: 34px;
+    margin-left:5px;
+    font-size: 15px;
+}
+.text-right{
+text-align:right;
+}
+.job-box-filter {
+    padding: 12px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #e8eef1;
+    margin-bottom: 20px;
+}
+.job-box {
+    background: #ffffff;
+    display: inline-block;
+    width: 100%;
+    padding: 0 0px 40px 0px;
+    border: 1px solid #e8eef1;
+}
+.job-box-filter a.filtsec {
+    margin-top: 8px;
+    display: inline-block;
+    margin-right: 15px;
+    padding: 4px 10px;
+    font-family: 'Quicksand', sans-serif;
+	transition: all ease 0.4s;
+    background: #edf0f3;
+    border-radius: 50px;
+    font-size: 13px;
+    color: #81a0b1;
+    border: 1px solid #e2e8ef;
+}
+.job-box-filter a.filtsec.active {
+    color: #ffffff;
+    background: #16262c;
+	border-color:#16262c;
+}
+.job-box-filter a.filtsec i {
+    color: #03A9F4;
+    margin-right: 5px;
+}
+.job-box-filter a.filtsec:hover, .job-box-filter a.filtsec:focus {
+    color: #ffffff;
+    background: #07b107;
+    border-color: #07b107;
+}
+.job-box-filter a.filtsec:hover i, .job-box-filter a.filtsec:focus i{
+color:#ffffff;
+}
+.job-box-filter h4 i {
+    margin-right: 10px;
+}
+
+/*=====================================
+Inbox Message Style
+=======================================*/
+.inbox-message ul {
+    padding: 0;
+    margin: 0;
+}
+.inbox-message ul li {
+    list-style: none;
+    position: relative;
+    padding: 15px 20px;
+	border-bottom: 1px solid #e8eef1;
+}
+.inbox-message ul li:hover, .inbox-message ul li:focus {
+    background: #eff6f9;
+}
+.inbox-message .message-avatar {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.message-avatar img {
+    display: inline-block;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+}
+.inbox-message .message-body {
+    margin-left: 85px;
+    font-size: 15px;
+    color:#62748F;
+}
+.message-body-heading h5 {
+    font-weight: 600;
+	display:inline-block;
+    color:#62748F;
+    margin: 0 0 7px 0;
+    padding: 0;
+}
+.message-body h5 span {
+    border-radius: 50px;
+    line-height: 14px;
+    font-size: 12px;
+    color: #fff;
+    font-style: normal;
+    padding: 4px 10px;
+    margin-left: 5px;
+    margin-top: -5px;
+}
+.message-body h5 span.unread{
+	background:#07b107;
+}
+.message-body h5 span.important{
+	background:#dd2027;
+}
+.message-body h5 span.pending{
+	background:#2196f3;
+}
+.message-body-heading span {
+    float: right;
+    color:#62748F;
+    font-size: 14px;
+}
+.messages-inbox .message-body p {
+    margin: 0;
+    padding: 0;
+    line-height: 27px;
+    font-size: 15px;
+}
+
+a:hover{
+    text-decoration:none;
+}
+
+
+/*=====================================
+Messages.html
+=======================================*/
+
+
+.nano {
+    overflow-y: auto;
+}
+
+.pad-all {
+    padding: 15px;
+}
+
+
+/* Пример стилей для SimpleBar */
+.chat-messages .simplebar-scrollbar {
+    width: 6px; /* Ширина ползунка */
+}
+
+.chat-messages .simplebar-scrollbar:before {
+    background-color: rgba(0, 0, 0, 0.3); /* Цвет ползунка */
+    border-radius: 3px; /* Закругление углов */
+}
+.speech {
+    position: relative;
+    background: #b7dcfe;
+    color: #317787;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 0;
+}
+.speech:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0;
+    top: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-right: 7px solid #b7dcfe;
+    margin: 15px 0 0 -6px;
+}
+.speech-right>.speech:before {
+    left: auto;
+    right: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #ffdc91;
+    border-right: 0;
+    margin: 15px -6px 0 0;
+}
+.speech .media-heading {
+    font-size: 1.2em;
+    color: #317787;
+    display: block;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-weight: 300;
+}
+.speech-time {
+    margin-top: 20px;
+    margin-bottom: 0;
+    font-size: .8em;
+    font-weight: 300;
+}
+.media-block .media-right {
+    float: right;
+}
+.speech-right {
+    text-align: right;
+}
+.pad-hor {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.speech-right>.speech {
+    background: #ffda87;
+    color: #a07617;
+    text-align: right;
+}
+.speech-right>.speech .media-heading {
+    color: #a07617;
+}
+
+.btn-primary, .btn-primary:focus, .btn-hover-primary:hover,
+.btn-hover-primary:active, .btn-hover-primary.active,
+.btn.btn-active-primary:active, .btn.btn-active-primary.active,
+.dropdown.open>.btn.btn-active-primary, .btn-group.open
+.dropdown-toggle.btn.btn-active-primary {
+    background-color: #579ddb;
+    border-color: #5fa2dd;
+    color: #fff !important;
+}
+.btn {
+    cursor: pointer;
+    color: inherit;
+    padding: 6px 12px;
+    border-radius: 0;
+    border: 1px solid 0;
+    font-size: 11px;
+    line-height: 1.42857;
+    vertical-align: middle;
+    -webkit-transition: all .25s;
+    transition: all .25s;
+}
+.form-control {
+    font-size: 11px;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid #e9e9e9;
+    transition-duration: .5s;
+}
+.nano>.nano-pane {
+    background-color: rgba(0,0,0,0.1);
+    position: absolute;
+    width: 5px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    -webkit-transition: all .7s;
+    transition: all .7s;
+}
+
+/*=====================================
+FORM MESSAGES.html
+=======================================*/
+
+.channel-bottom-base {
+  box-shadow: 0 -24px 24px -24px rgba(0, 0, 0, .13);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  position: fixed;
+  bottom: 0;
+  width: 720px;
+}
+
+#message-form {
+  position: relative;
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }

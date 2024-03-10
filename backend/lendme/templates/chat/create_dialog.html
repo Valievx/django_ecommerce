@@ -1,0 +1,43 @@
+{% url 'users:profile' message_item.author.username as the_user_url%}
+{% load static %}
+{% load tz %}
+{% load custom_tags %}
+{% get_companion user chat as companion %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+{% if message_item.author == user %}
+  <div class="d-flex flex-row justify-content-start">
+    <img src="{% if request.user.avatar %}
+                {{ request.user.avatar.url }}
+              {% else %}
+                {% static 'avatar/avatar.jpg' %}
+              {% endif %}"
+         alt="Profile Picture"
+         style="width: 34px; height: 100%; border-radius: 50%; margin-right: 5px;">
+    <div>
+      <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">{{ message_item.message|safe }}</p>
+      <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{ message_item.pub_date|time:"H:i" }}</p>
+      </div>
+  </div>
+
+{% else %}
+  <div class="d-flex flex-row justify-content-end">
+    <div>
+      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">{{ message_item.message|safe }}</p>
+      <p class="small me-3 mb-3 rounded-3 text-muted">{{ message_item.pub_date|time:"H:i" }}</p>
+    </div>
+      <img src="{% if companion.avatar %}
+                  {{ companion.avatar.url }}
+                {% else %}
+                  {% static 'avatar/avatar.jpg' %}
+                {% endif %}"
+           alt="Profile Picture"
+           style="width: 34px; height: 100%; border-radius: 50%; margin-left: 5px;">
+  </div>
+{% endif %}
+
+
+
+
+

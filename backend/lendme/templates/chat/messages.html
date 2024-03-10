@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %} LendMe - Чат {% endblock %}
+{% block content %}
+{% load i18n tz %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<div class="container-chat">
+  {% if not chat %}
+    <div class="panel panel-body">
+      {% trans "Невозможно начать беседу.
+        Не найден пользователь или вы не
+        имеете доступа к данной беседе." %}
+    </div>
+  {% else %}
+    {% if chat %}
+        <div id="chat-body">
+          <div class="nano has-scrollbar">
+            <div class="nano-content pad-all" tabindex="0" style="right: -17px;">
+              <div class="col-xs">
+
+                <div class="pt-3 pe-3" data-mdb-perfect-scrollbar="true"
+                  style="position: relative; height: 980px">
+                {% for message in chat.message_set.all %}
+                  {% include 'chat/create_dialog.html' with message_item=message %}
+                {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+    {% endif %}
+            <div class="channel-bottom-base">
+                <form id="message-form" method="post" >
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-default btn-sm"
+                            onclick="return ETextEditor.validateForm('message-form')">
+                        <span class="ico ico-comment"></span>
+                        {% trans "Отправить" %}
+                    </button>
+                </form>
+            </div>
+        </div>
+  {% endif %}
+</div>
+
+{% endblock %}

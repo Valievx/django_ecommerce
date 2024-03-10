@@ -1,0 +1,12 @@
+{% extends "main/base.html" %}
+{% block title %} LendMe - Error 404 {% endblock %}
+{% block content %}
+
+<div class="form-overlay">
+  <div class="login-container">
+    <h1 style="color: #fff;">404. Страница не найдена</h1>
+    <p>Возможно, она была перемещена, или вы просто неверно указали адрес страницы.</p>
+    <a class="text-decoration-none" href="{% url 'main:index' %}">Перейти на главную</a>
+  </div>
+</div>
+{% endblock %}
