@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'main.apps.MainConfig',
     'catalog.apps.CatalogConfig',
-    'api.apps.ApiConfig',
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
     'chat.apps.ChatConfig',
@@ -105,9 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
