@@ -1,12 +1,9 @@
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import { Header } from './components'
 
 function App() {
+  
   return (
-    <div className="wrapper">
-      <Header />
-      <Footer />
-    </div>
+    <Header />
   );
 }
 

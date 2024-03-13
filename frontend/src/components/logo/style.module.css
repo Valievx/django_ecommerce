@@ -1,0 +1,7 @@
+.headerLogo {
+    box-sizing: border-box;
+    height: 30px;
+    width: 115px;
+    position: relative;
+    top: 2px;
+  }
